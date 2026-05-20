@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420" role="img" aria-label="memory photo placeholder">
+  <rect width="420" height="420" fill="#FBF8F1"/>
+  <path d="M0 260c110-58 218-55 420 2v158H0z" fill="#7D8F7A" opacity=".32"/>
+  <path d="M94 175c38-34 90-38 140-10 41 23 74 20 114-7" fill="none" stroke="#D4AF37" stroke-width="11" stroke-linecap="round" opacity=".7"/>
+  <path d="M124 245c74-39 141-37 210 6" fill="none" stroke="#3F513F" stroke-width="10" stroke-linecap="round" opacity=".28"/>
+</svg>

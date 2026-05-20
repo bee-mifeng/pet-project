@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="quiet rabbit portrait placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#E8E1D4"/>
+      <stop offset="1" stop-color="#DDE6DE"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="640" fill="url(#bg)"/>
+  <path d="M92 515c96-107 358-121 456-8v133H92z" fill="#7D8F7A" opacity=".13"/>
+  <path d="M229 246c-17-115-2-187 44-194 49-7 73 67 54 196z" fill="#F7F4EC"/>
+  <path d="M411 246c17-115 2-187-44-194-49-7-73 67-54 196z" fill="#F7F4EC"/>
+  <path d="M261 247c-7-73 0-116 23-121 23-4 33 40 20 122zM379 247c7-73 0-116-23-121-23-4-33 40-20 122z" fill="#CFAEAA" opacity=".46"/>
+  <path d="M194 362c0-91 54-149 126-149s126 58 126 149c0 93-51 152-126 152s-126-59-126-152z" fill="#F7F4EC"/>
+  <circle cx="276" cy="349" r="11" fill="#263331" opacity=".86"/>
+  <circle cx="364" cy="349" r="11" fill="#263331" opacity=".86"/>
+  <path d="M307 389c8-7 18-7 26 0-3 12-7 17-13 17s-10-5-13-17z" fill="#B98F8B" opacity=".75"/>
+  <path d="M293 428c18 11 36 11 54 0" fill="none" stroke="#263331" stroke-width="8" stroke-linecap="round" opacity=".46"/>
+  <path d="M201 444c52 55 188 64 238 0" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" opacity=".18"/>
+</svg>

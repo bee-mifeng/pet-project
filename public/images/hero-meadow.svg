@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" role="img" aria-label="soft meadow illustration">
+  <defs>
+    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#FBF8F1"/>
+      <stop offset="0.58" stop-color="#E8E1D4"/>
+      <stop offset="1" stop-color="#DDE6DE"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0.78" cy="0.2" r="0.4">
+      <stop offset="0" stop-color="#D4AF37" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#D4AF37" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1440" height="900" fill="url(#sky)"/>
+  <rect width="1440" height="900" fill="url(#sun)"/>
+  <path d="M-60 774C180 690 361 696 556 755c183 56 337 61 514 7 178-54 321-38 430 7v172H-60z" fill="#7D8F7A" opacity=".46"/>
+  <path d="M-60 835c198-62 383-66 612-8 206 52 420 40 612-14 144-41 260-27 336 14v122H-60z" fill="#3F513F" opacity=".2"/>
+  <path d="M0 862c206-39 393-33 587 13 177 42 363 40 545-4 143-35 239-30 308-3v32H0z" fill="#3F513F" opacity=".34"/>
+  <g fill="#D4AF37" opacity=".54">
+    <path d="M1096 126l7 18 18 7-18 7-7 18-7-18-18-7 18-7z"/>
+    <path d="M1247 254l4 11 11 4-11 5-4 11-5-11-11-5 11-4z"/>
+    <path d="M963 222l5 12 12 5-12 4-5 12-4-12-12-4 12-5z"/>
+  </g>
+  <g stroke="#3F513F" stroke-width="3" stroke-linecap="round" opacity=".28">
+    <path d="M108 782c23-42 44-57 71-83"/>
+    <path d="M208 796c18-39 35-57 58-80"/>
+    <path d="M1170 782c20-43 40-63 66-88"/>
+    <path d="M1270 798c16-37 37-60 63-81"/>
+  </g>
+  <g fill="#3F513F" opacity=".16">
+    <circle cx="118" cy="622" r="10"/>
+    <circle cx="146" cy="624" r="7"/>
+    <circle cx="167" cy="639" r="6"/>
+    <circle cx="103" cy="642" r="6"/>
+    <ellipse cx="135" cy="649" rx="16" ry="11"/>
+    <circle cx="1198" cy="616" r="9"/>
+    <circle cx="1223" cy="619" r="7"/>
+    <circle cx="1243" cy="633" r="6"/>
+    <circle cx="1186" cy="637" r="6"/>
+    <ellipse cx="1215" cy="644" rx="15" ry="10"/>
+  </g>
+</svg>

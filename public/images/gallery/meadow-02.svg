@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420" role="img" aria-label="memory photo placeholder">
+  <rect width="420" height="420" fill="#DDE6DE"/>
+  <path d="M60 330c73-98 207-124 300-12v102H60z" fill="#3F513F" opacity=".18"/>
+  <g fill="#3F513F" opacity=".3">
+    <circle cx="183" cy="176" r="17"/>
+    <circle cx="232" cy="177" r="13"/>
+    <circle cx="261" cy="207" r="11"/>
+    <circle cx="156" cy="207" r="11"/>
+    <ellipse cx="210" cy="225" rx="36" ry="25"/>
+  </g>
+  <circle cx="310" cy="112" r="45" fill="#D4AF37" opacity=".2"/>
+</svg>

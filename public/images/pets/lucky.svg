@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="quiet dog portrait placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#DDE6DE"/>
+      <stop offset="1" stop-color="#FBF8F1"/>
+    </linearGradient>
+    <linearGradient id="coat" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#C8A878"/>
+      <stop offset="1" stop-color="#9E865E"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="640" fill="url(#bg)"/>
+  <circle cx="140" cy="142" r="66" fill="#D4AF37" opacity=".11"/>
+  <path d="M92 501c101-104 350-119 457-4v143H92z" fill="#3F513F" opacity=".14"/>
+  <path d="M185 338c0-92 66-161 150-161s150 69 150 161c0 106-68 174-150 174s-150-68-150-174z" fill="url(#coat)"/>
+  <path d="M209 283c-49-72-73-126-42-149 39-28 105 35 132 105z" fill="#3F513F" opacity=".82"/>
+  <path d="M461 283c49-72 73-126 42-149-39-28-105 35-132 105z" fill="#3F513F" opacity=".82"/>
+  <circle cx="282" cy="330" r="12" fill="#263331" opacity=".9"/>
+  <circle cx="388" cy="330" r="12" fill="#263331" opacity=".9"/>
+  <path d="M316 381c11-9 27-9 38 0-3 18-9 26-19 26s-16-8-19-26z" fill="#263331" opacity=".88"/>
+  <path d="M287 435c28 17 68 17 96 0" fill="none" stroke="#263331" stroke-width="9" stroke-linecap="round" opacity=".5"/>
+  <path d="M236 427c43 40 154 40 197 0-4 67-40 100-98 100s-95-33-99-100z" fill="#FBF8F1" opacity=".5"/>
+</svg>

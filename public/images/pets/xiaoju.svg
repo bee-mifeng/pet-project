@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="quiet cat portrait placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#FBF8F1"/>
+      <stop offset="1" stop-color="#E4EADD"/>
+    </linearGradient>
+    <linearGradient id="fur" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#B9855E"/>
+      <stop offset="1" stop-color="#8F6C55"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="640" fill="url(#bg)"/>
+  <circle cx="502" cy="124" r="76" fill="#D4AF37" opacity=".12"/>
+  <path d="M74 525c86-92 398-117 494-6v121H74z" fill="#3F513F" opacity=".12"/>
+  <path d="M184 266l24-116 91 73c14-3 28-5 43-5 15 0 29 2 43 5l91-73 24 116c35 39 45 93 28 143-24 70-88 111-186 111s-162-41-186-111c-17-50-7-104 28-143z" fill="url(#fur)"/>
+  <path d="M224 184l11 66 40-27zM460 184l-11 66-40-27z" fill="#D7B99F" opacity=".62"/>
+  <path d="M226 320c24-12 48-12 71 0M387 320c24-12 48-12 71 0" fill="none" stroke="#2F3937" stroke-width="10" stroke-linecap="round" opacity=".8"/>
+  <path d="M326 374c10-8 23-8 33 0-3 13-9 19-16 19s-13-6-17-19z" fill="#2F3937" opacity=".88"/>
+  <path d="M312 421c20 12 42 12 62 0" fill="none" stroke="#2F3937" stroke-width="9" stroke-linecap="round" opacity=".55"/>
+  <g stroke="#FBF8F1" stroke-width="11" stroke-linecap="round" opacity=".55">
+    <path d="M260 258c-34-16-64-16-92-2"/>
+    <path d="M424 258c34-16 64-16 92-2"/>
+  </g>
+  <path d="M171 438c60 74 280 74 342 0" fill="none" stroke="#FBF8F1" stroke-width="18" stroke-linecap="round" opacity=".16"/>
+</svg>

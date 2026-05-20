@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420" role="img" aria-label="memory photo placeholder">
+  <rect width="420" height="420" fill="#E8E1D4"/>
+  <circle cx="96" cy="96" r="48" fill="#D4AF37" opacity=".2"/>
+  <path d="M118 314c35-84 142-126 229-50v156H78z" fill="#3F513F" opacity=".18"/>
+  <g stroke="#3F513F" stroke-width="8" stroke-linecap="round" opacity=".34">
+    <path d="M180 260c18-38 37-57 67-83"/>
+    <path d="M239 269c17-35 35-54 63-74"/>
+  </g>
+</svg>
