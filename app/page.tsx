@@ -42,7 +42,7 @@ const promises = [
   "温柔表达，避免阴森化和攀比式互动",
   "公开内容和留言均需人工审核",
   "支持私密链接，用户可选择公开或关闭留言",
-  "持续维护页面体验，服务范围和价格清晰透明"
+  "服务范围和价格清晰透明"
 ];
 
 const serviceFeatures = [
@@ -105,7 +105,7 @@ export default function HomePage() {
     <main>
       <HeroSection />
 
-      <section id="how-it-works" className="bg-porcelain py-12 sm:py-16">
+      <section id="how-it-works" className="bg-porcelain py-9 sm:py-12">
         <div className="container-shell">
           <SectionHeader
             eyebrow="你可以怎样保存它的记忆"
@@ -116,13 +116,13 @@ export default function HomePage() {
             {features.map((feature) => (
               <article
                 key={feature.title}
-                className="rounded-3xl border border-forest/10 bg-white p-5 shadow-quiet"
+                className="rounded-2xl border border-forest/10 bg-white p-4 shadow-quiet"
               >
-                <span className="mb-4 grid h-11 w-11 place-items-center rounded-2xl bg-forest text-cream">
-                  <feature.icon className="h-5 w-5" />
+                <span className="mb-3 grid h-10 w-10 place-items-center rounded-xl bg-forest text-cream">
+                  <feature.icon className="h-[18px] w-[18px]" />
                 </span>
-                <h3 className="font-serif text-2xl text-forest">{feature.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-night/64">
+                <h3 className="font-serif text-[1.35rem] text-forest">{feature.title}</h3>
+                <p className="mt-2.5 text-sm leading-6 text-night/64">
                   {feature.description}
                 </p>
               </article>
@@ -131,7 +131,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-cream/55 py-12 sm:py-16">
+      <section className="bg-cream/55 py-9 sm:py-12">
         <div className="container-shell">
           <SectionHeader
             eyebrow="示例纪念卡片"
@@ -139,8 +139,8 @@ export default function HomePage() {
             description="每一次献花、点亮和留言，都只是温柔的祝福，不用于排名或比较。"
             action={
               <Link
-                href="/meadow"
-                className="focus-ring inline-flex min-h-11 items-center rounded-full border border-forest/15 bg-white px-4 text-sm font-semibold text-forest hover:border-forest/35"
+                href="/garden"
+                className="focus-ring inline-flex min-h-10 items-center rounded-full border border-forest/15 bg-white px-4 text-sm font-semibold text-forest hover:border-forest/35"
               >
                 查看全部
               </Link>
@@ -154,111 +154,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-porcelain py-12 sm:py-16">
-        <div className="container-shell grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <div>
-            <p className="mb-3 text-sm font-semibold text-gold">使用流程</p>
-            <h2 className="font-serif text-3xl text-forest sm:text-4xl">
-              从保存到公开，每一步都由你决定。
-            </h2>
-            <p className="mt-4 text-base leading-7 text-night/66">
-              你可以先创建私人纪念页，确认内容后再选择是否申请公开展示。公开页面与留言都会先经过审核。
-            </p>
-            <Link
-              href="/create"
-              className="focus-ring mt-6 inline-flex min-h-12 items-center gap-2 rounded-full bg-forest px-6 text-sm font-bold text-cream shadow-quiet hover:bg-night"
-            >
-              <Sprout className="h-4 w-4" />
-              现在创建
-            </Link>
-          </div>
-          <div className="grid gap-3">
-            {steps.map((step, index) => (
-              <div
-                key={step}
-                className="flex items-center gap-4 rounded-3xl border border-forest/10 bg-white p-4 shadow-quiet"
-              >
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/16 text-sm font-bold text-night">
-                  {index + 1}
-                </span>
-                <span className="text-base font-semibold text-forest">{step}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="service" className="bg-forest py-10 text-cream sm:py-12">
-        <div className="container-shell grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-center">
-          <div>
-            <p className="mb-3 text-sm font-semibold text-gold">公共记忆花园展示服务</p>
-            <h2 className="font-serif text-3xl sm:text-4xl">
-              私人纪念页可免费创建，是否公开展示由你决定。
-            </h2>
-            <p className="mt-4 max-w-2xl text-base leading-7 text-cream/72">
-              当你希望它进入公共记忆花园时，可申请展示服务。费用用于人工审核、页面展示与基础维护。
-            </p>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-cream/78">
-              私人纪念页永久免费创建。只有申请进入公共记忆花园时，才需要支付一次性服务费。
-            </p>
-            <Link
-              href="/create"
-              className="focus-ring mt-6 inline-flex min-h-12 items-center gap-2 rounded-full bg-cream px-6 text-sm font-bold text-forest shadow-quiet hover:bg-white"
-            >
-              <Sprout className="h-4 w-4" />
-              创建纪念页
-            </Link>
-          </div>
-          <div className="rounded-3xl border border-cream/15 bg-cream/10 p-5 shadow-quiet">
-            <div className="flex items-end justify-between gap-4 border-b border-cream/12 pb-4">
-              <p className="text-sm font-semibold text-gold">一次性服务费</p>
-              <p className="text-3xl font-semibold">19.9 元</p>
-            </div>
-            <p className="mt-4 text-sm leading-6 text-cream/72">
-              用于人工审核、页面展示与基础维护。
-            </p>
-            <ul className="mt-4 space-y-2.5 text-sm text-cream/76">
-              {serviceFeatures.map((feature) => (
-                <li key={feature} className="flex gap-3">
-                  <BadgeCheck className="h-5 w-5 shrink-0 text-gold" />
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-porcelain py-12 sm:py-16">
+      <section className="bg-cream/55 py-8 sm:py-10">
         <div className="container-shell">
-          <SectionHeader
-            eyebrow="品牌承诺"
-            title="温柔表达、隐私可控、人工审核、持续维护。"
-            description="我们刻意避开攀比式互动和过度悲伤消费，让纪念回到陪伴本身。"
-          />
-          <div className="grid gap-4 md:grid-cols-2">
-            {promises.map((promise) => (
-              <div
-                key={promise}
-                className="flex gap-3 rounded-3xl border border-forest/10 bg-white p-5 shadow-quiet"
-              >
-                <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-sage" />
-                <p className="text-sm leading-6 text-night/68">{promise}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-cream/55 py-12 sm:py-14">
-        <div className="container-shell">
-          <div className="rounded-3xl border border-forest/10 bg-white px-6 py-8 shadow-quiet sm:px-8 lg:flex lg:items-center lg:justify-between lg:gap-10">
+          <div className="rounded-3xl border border-forest/10 bg-white px-5 py-6 shadow-quiet sm:px-7 lg:flex lg:items-center lg:justify-between lg:gap-10">
             <div className="max-w-2xl">
-              <h2 className="font-serif text-3xl text-forest sm:text-4xl">
+              <h2 className="font-serif text-[1.7rem] leading-tight text-forest sm:text-[2.15rem]">
                 有些话，越早写下，越不容易遗失。
               </h2>
               <p className="mt-4 text-base leading-7 text-night/68">
-                离别后的很多细节，会在日常里慢慢变模糊。它喜欢的角落、等你回家的样子、最后一次靠近你的温度，都值得被认真保存下来。
+                离别后的很多细节，会在日常里慢慢变模糊。它喜欢待着的角落、等你回家的样子、那些安静陪伴过你的瞬间，都值得被认真保存下来。
               </p>
             </div>
             <Link
@@ -272,7 +176,103 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="faq" className="bg-cream/55 py-12 sm:py-16">
+      <section className="bg-porcelain py-9 sm:py-12">
+        <div className="container-shell grid gap-7 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div>
+            <p className="mb-3 text-sm font-semibold text-gold">使用流程</p>
+            <h2 className="font-serif text-[1.7rem] leading-tight text-forest sm:text-[2.15rem]">
+              从保存到公开，每一步都由你决定。
+            </h2>
+            <p className="mt-4 text-base leading-7 text-night/66">
+              你可以先创建私人纪念页，确认内容后再选择是否申请公开展示。公开页面与留言都会先经过审核。
+            </p>
+            <Link
+              href="/create"
+              className="focus-ring mt-6 inline-flex min-h-11 items-center gap-2 rounded-full bg-forest px-5 text-sm font-bold text-cream shadow-quiet hover:bg-night"
+            >
+              <Sprout className="h-4 w-4" />
+              现在创建
+            </Link>
+          </div>
+          <div className="grid gap-3">
+            {steps.map((step, index) => (
+              <div
+                key={step}
+                className="flex items-center gap-3 rounded-2xl border border-forest/10 bg-white p-3.5 shadow-quiet"
+              >
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gold/16 text-sm font-bold text-night">
+                  {index + 1}
+                </span>
+                <span className="text-[15px] font-semibold text-forest">{step}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="service" className="bg-forest py-7 text-cream sm:py-9">
+        <div className="container-shell grid gap-6 lg:grid-cols-[1fr_0.86fr] lg:items-center">
+          <div>
+            <p className="mb-3 text-sm font-semibold text-gold">公共记忆花园展示服务</p>
+            <h2 className="font-serif text-[1.7rem] leading-tight sm:text-[2.15rem]">
+              私人纪念页可免费创建，是否公开展示由你决定。
+            </h2>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-cream/72">
+              当你希望它进入公共记忆花园时，可申请展示服务。费用用于人工审核、页面展示与基础维护。
+            </p>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-cream/78">
+              私人纪念页永久免费创建。只有申请进入公共记忆花园时，才需要支付一次性服务费。
+            </p>
+            <Link
+              href="/create"
+              className="focus-ring mt-5 inline-flex min-h-11 items-center gap-2 rounded-full bg-cream px-5 text-sm font-bold text-forest shadow-quiet hover:bg-white"
+            >
+              <Sprout className="h-4 w-4" />
+              先创建私人纪念页
+            </Link>
+          </div>
+          <div className="rounded-2xl border border-cream/15 bg-cream/10 p-4 shadow-quiet">
+            <div className="flex items-end justify-between gap-4 border-b border-cream/12 pb-3">
+              <p className="text-sm font-semibold text-gold">一次性服务费</p>
+              <p className="text-[1.45rem] font-semibold">19.9 元</p>
+            </div>
+            <p className="mt-3 text-sm leading-6 text-cream/72">
+              用于人工审核、页面展示与基础维护。
+            </p>
+            <ul className="mt-3 space-y-2 text-sm text-cream/76">
+              {serviceFeatures.map((feature) => (
+                <li key={feature} className="flex gap-3">
+                  <BadgeCheck className="h-[18px] w-[18px] shrink-0 text-gold" />
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-porcelain py-9 sm:py-12">
+        <div className="container-shell">
+          <SectionHeader
+            eyebrow="品牌承诺"
+            title="温柔表达、隐私可控、人工审核、服务透明。"
+            description="我们刻意避开攀比式互动和过度悲伤消费，让纪念回到陪伴本身。"
+          />
+          <div className="grid gap-4 md:grid-cols-2">
+            {promises.map((promise) => (
+              <div
+                key={promise}
+                className="flex gap-3 rounded-2xl border border-forest/10 bg-white p-4 shadow-quiet"
+              >
+                <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-sage" />
+                <p className="text-sm leading-6 text-night/68">{promise}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" className="bg-cream/55 py-9 sm:py-12">
         <div className="container-shell">
           <SectionHeader
             eyebrow="常见问题"
@@ -283,13 +283,13 @@ export default function HomePage() {
             {faqs.map((faq) => (
               <article
                 key={faq.question}
-                className="rounded-3xl border border-forest/12 bg-white p-5 shadow-quiet"
+                className="rounded-2xl border border-forest/10 bg-white p-4 shadow-quiet"
               >
-                <h3 className="flex gap-3 font-semibold text-forest">
-                  <HelpCircle className="mt-0.5 h-5 w-5 shrink-0 text-sage" />
+                <h3 className="flex gap-3 text-[15px] font-semibold text-forest">
+                  <HelpCircle className="mt-0.5 h-[18px] w-[18px] shrink-0 text-sage/80" />
                   <span>{faq.question}</span>
                 </h3>
-                <p className="mt-3 text-sm leading-7 text-night/64">{faq.answer}</p>
+                <p className="mt-2.5 text-sm leading-6 text-night/64">{faq.answer}</p>
               </article>
             ))}
           </div>

@@ -1,6 +1,6 @@
 export type PetType = "cat" | "dog" | "other";
 
-export type ReviewStatus = "pending" | "approved" | "rejected";
+export type ReviewStatus = "private" | "pending" | "approved" | "rejected";
 
 export interface Memorial {
   id: string;

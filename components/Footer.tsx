@@ -22,7 +22,7 @@ export function Footer() {
             <Link className="block text-cream/70 hover:text-cream" href="/create">
               创建纪念页
             </Link>
-            <Link className="block text-cream/70 hover:text-cream" href="/meadow">
+            <Link className="block text-cream/70 hover:text-cream" href="/garden">
               记忆花园
             </Link>
             <Link className="block text-cream/70 hover:text-cream" href="/#service">

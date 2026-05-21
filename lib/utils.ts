@@ -18,12 +18,17 @@ export const petTypeOptions: Array<{ label: string; value: PetType | "all" }> = 
 ];
 
 export const statusLabels: Record<ReviewStatus, string> = {
+  private: "私人纪念页",
   pending: "待审核",
   approved: "已通过",
   rejected: "已拒绝"
 };
 
 export function statusTone(status: ReviewStatus) {
+  if (status === "private") {
+    return "bg-forest/10 text-forest ring-forest/15";
+  }
+
   if (status === "approved") {
     return "bg-sage/15 text-forest ring-sage/20";
   }

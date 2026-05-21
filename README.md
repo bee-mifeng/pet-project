@@ -1,8 +1,8 @@
-# PawsMeadow 毛孩子记忆花园 MVP
+# PawsMeadow 毛孩子记忆花园
 
-面向中国大陆市场的宠物数字纪念 Web 原型。第一版聚焦完整业务闭环：
+面向中国大陆市场的宠物数字纪念 Web 应用。第一版聚焦核心闭环：
 
-创建纪念页 → 私密纪念页 → 申请公开 → 公共记忆花园 → 献花 / 点亮小爪印 / 留言 → 付费升级展示。
+创建私人纪念页 → 上传照片 → 保存纪念页 → 私密链接访问 → 申请进入公共记忆花园 → 内部审核 → 公开展示 → 献花 / 点亮小爪印 / 留言审核。
 
 ## 技术栈
 
@@ -10,13 +10,62 @@
 - React
 - TypeScript
 - Tailwind CSS
-- Mock data，无真实数据库
-- 不接正式支付、微信登录、微信支付
+- Supabase Database
+- Supabase Storage
 
 ## 安装依赖
 
 ```bash
 npm install
+```
+
+## 在新电脑上使用
+
+```bash
+git clone git@github.com:bee-mifeng/pet-project.git
+cd pet-project
+npm install
+cp .env.local.example .env.local
+```
+
+然后在 `.env.local` 中填入自己的 Supabase 配置，再运行：
+
+```bash
+npm run dev
+```
+
+开发地址：
+
+```bash
+http://localhost:3000
+```
+
+## 环境变量
+
+复制 `.env.local.example` 为 `.env.local`，并填入：
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+NEXT_PUBLIC_STORAGE_MODE=supabase-storage
+```
+
+`.env.local` 不会提交到 GitHub。`SUPABASE_SERVICE_ROLE_KEY` 只在服务端 API 路由中使用，不要放到任何 `NEXT_PUBLIC_*` 变量里。
+
+## Supabase 初始化
+
+1. 在 Supabase SQL Editor 中执行 `supabase/schema.sql`。
+2. 在 Supabase Storage 中创建 public bucket：
+   - bucket name: `pet-photos`
+   - public: `true`
+
+`NEXT_PUBLIC_STORAGE_MODE=supabase-storage` 是推荐模式：前端通过 Next API 路由访问 Supabase，照片写入 `pet-photos`，纪念页和留言写入 Supabase Database 表。
+
+图片上传路径使用：
+
+```text
+memorials/{slug}/{timestamp}-{filename}
 ```
 
 ## 本地开发
@@ -34,42 +83,37 @@ http://localhost:3000
 ## 构建
 
 ```bash
+npm run typecheck
 npm run build
 ```
 
 ## 页面路由
 
-- `/`：首页，包含 Hero、产品说明、示例纪念卡、流程、价格入口和品牌承诺
-- `/create`：创建纪念页表单，支持头像本地预览和 mock 提交
-- `/memorial/[id]`：宠物纪念页详情，支持献花、小爪印计数和本地留言待审核
-- `/meadow`：公共记忆花园，支持全部 / 猫咪 / 狗狗 / 其他筛选
-- `/admin`：简单 mock 审核后台，支持纪念页和留言的状态切换
-- `/pricing`：一次性付费升级展示页，不接真实支付
+- `/`：首页，保留示例预览卡与产品说明
+- `/create`：创建纪念页，上传照片并保存到 Supabase
+- `/memorial/[slug]`：真实纪念页详情，支持私密链接访问
+- `/garden`：公共记忆花园，只展示审核通过且公开的纪念页
+- `/meadow`：旧路径，自动跳转到 `/garden`
+- `/admin`：内部审核入口
+- `/admin/memorials`：纪念页公开申请审核
+- `/admin/messages`：留言审核
+- `/pricing`：价格说明页
 
-## 当前 MVP 已完成
+## 已连接的核心能力
 
-- 6 个核心页面路由
-- 4 个虚构宠物案例：豆包、小橘、Lucky、雪球
-- 审核状态：pending / approved / rejected
-- 公共记忆花园只展示已通过且公开的纪念页
-- 献花、点亮小爪印本地计数
-- 留言本地新增，并显示“留言待审核”
-- 创建页 mock 成功跳转
-- 管理后台 mock 审核、拒绝、隐藏、查看详情
-- 移动端优先布局
-- 本地 SVG 占位视觉，不使用真实人物或真实宠物照片
-- 用户协议、隐私政策、审核说明入口占位
+- 创建纪念页写入 `memorials`
+- 图片上传到 `pet-photos`
+- 自动生成 `memorial-xxxxxx` slug
+- 按 slug 读取纪念页
+- 公开申请状态更新
+- 公共记忆花园读取真实公开数据
+- 献花与点亮小爪印持久化
+- 留言提交进入待审核
+- 后台审核纪念页公开申请
+- 后台审核留言
 
-## 后续扩展建议
+## 当前边界
 
-- Supabase Database：保存用户、宠物纪念页、审核状态、留言和互动记录
-- Supabase Storage：上传头像和照片墙，并配合内容审核
-- 微信登录：用于 H5 / 小程序身份识别和页面归属
-- 微信支付：对接一次性公开展示、高级纪念页和人工定制订单
-- 微信小程序：复用核心页面和流程，降低分享与访问门槛
-- 内容审核后台：加入图片、文本、举报、下架和申诉处理
-- 二维码生成：为每个纪念页生成独立二维码，可用于实体纪念卡
-
-## 产品边界
-
-第一版不做复杂后端、不做开放发帖社区、不做拟真复刻互动、不做咨询服务、不做线下服务接入、不做持续扣费系统。
+- 暂未接登录系统，后台入口正式上线前需要增加访问权限。
+- 分享二维码区域仍为静态占位。
+- 首页示例卡仍为静态展示，用于说明页面风格。

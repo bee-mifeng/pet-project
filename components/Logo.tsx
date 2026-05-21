@@ -27,7 +27,7 @@ export function Logo({ variant = "default" }: LogoProps) {
           width={458}
           height={132}
           priority
-          className={cn("h-12 w-auto object-contain", isLight ? "h-10" : "sm:h-14")}
+          className={cn("h-11 w-auto object-contain", isLight ? "h-10" : "sm:h-[3.15rem]")}
         />
       </span>
     </Link>

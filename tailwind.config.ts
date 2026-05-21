@@ -39,14 +39,15 @@ const config: Config = {
         ]
       },
       boxShadow: {
-        soft: "0 18px 42px rgba(31, 45, 61, 0.08)",
-        quiet: "0 8px 22px rgba(63, 81, 63, 0.07)"
+        soft: "0 14px 34px rgba(31, 45, 61, 0.065)",
+        quiet: "0 6px 18px rgba(63, 81, 63, 0.05)"
       },
       backgroundImage: {
         "grain-soft":
           "radial-gradient(circle at top left, rgba(212, 175, 55, 0.14), transparent 28rem), radial-gradient(circle at bottom right, rgba(125, 143, 122, 0.18), transparent 24rem)"
       },
       opacity: {
+        8: "0.08",
         12: "0.12",
         16: "0.16",
         18: "0.18",
