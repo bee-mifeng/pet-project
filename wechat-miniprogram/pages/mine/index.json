@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "我的纪念页",
+  "usingComponents": {
+    "pet-card": "../../components/pet-card/index",
+    "empty-state": "../../components/empty-state/index",
+    "section-title": "../../components/section-title/index"
+  }
+}

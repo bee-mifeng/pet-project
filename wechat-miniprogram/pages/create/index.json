@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "创建纪念页",
+  "usingComponents": {
+    "section-title": "../../components/section-title/index"
+  }
+}

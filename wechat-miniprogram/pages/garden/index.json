@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "公共记忆花园",
+  "usingComponents": {
+    "section-title": "../../components/section-title/index",
+    "pet-card": "../../components/pet-card/index",
+    "empty-state": "../../components/empty-state/index"
+  }
+}

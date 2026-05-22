@@ -1,0 +1,19 @@
+<view class="pet-card card" bindtap="openDetail">
+  <image class="pet-photo" src="{{item.photo_url}}" mode="aspectFill"></image>
+  <view class="pet-body">
+    <view class="pet-head">
+      <view>
+        <view class="pet-name">{{item.pet_name}}</view>
+        <view class="pet-meta">{{item.pet_type_label}} · {{item.years}}</view>
+      </view>
+      <text wx:if="{{showStatus}}" class="status">{{item.status_label}}</text>
+    </view>
+    <view class="pet-story">{{item.brief_story}}</view>
+    <view class="pet-stats">
+      <text class="pet-stat">{{item.flowers_count || 0}} 朵花</text>
+      <text class="pet-stat">{{item.paw_lights_count || 0}} 次点亮</text>
+      <text class="pet-stat">{{item.messages_count || 0}} 条祝福</text>
+    </view>
+    <button class="quiet-button detail-button" bindtap="openDetail">查看纪念页</button>
+  </view>
+</view>

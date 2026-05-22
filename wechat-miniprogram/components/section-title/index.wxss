@@ -1,0 +1,27 @@
+.section-title {
+  display: flex;
+  gap: 16rpx;
+  align-items: flex-start;
+  margin: 54rpx 0 24rpx;
+}
+
+.section-kicker {
+  width: 8rpx;
+  height: 38rpx;
+  margin-top: 8rpx;
+  border-radius: 999rpx;
+  background: #d4af37;
+}
+
+.section-heading {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #3f513f;
+}
+
+.section-desc {
+  margin-top: 8rpx;
+  font-size: 25rpx;
+  line-height: 1.55;
+  color: rgba(31, 45, 61, 0.62);
+}

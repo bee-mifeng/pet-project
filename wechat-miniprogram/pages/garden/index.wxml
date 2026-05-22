@@ -1,0 +1,16 @@
+<view class="page garden-page">
+  <view class="page-title">公共记忆花园</view>
+  <view class="page-desc">每一个被爱过的毛孩子，都值得被温柔记住。这里只展示经过审核的宠物纪念页，让浏览与祝福保持安静、克制。</view>
+
+  <view class="filters">
+    <view wx:for="{{filters}}" wx:key="value" data-type="{{item.value}}" bindtap="changeFilter" class="filter {{activeType === item.value ? 'active' : ''}}">{{item.label}}</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading">正在轻轻整理这片花园...</view>
+
+  <view wx:elif="{{memorials.length > 0}}" class="garden-list">
+    <pet-card wx:for="{{memorials}}" wx:key="_id" item="{{item}}" bind:open="openMemorial"></pet-card>
+  </view>
+
+  <empty-state wx:else title="这片记忆花园还在等待第一位被温柔记住的毛孩子。" button-text="创建纪念页" bind:action="goCreate"></empty-state>
+</view>

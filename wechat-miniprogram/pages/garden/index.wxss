@@ -1,0 +1,37 @@
+.filters {
+  display: flex;
+  gap: 14rpx;
+  overflow-x: auto;
+  margin: 32rpx -32rpx 28rpx;
+  padding: 0 32rpx 4rpx;
+}
+
+.filter {
+  flex-shrink: 0;
+  min-width: 116rpx;
+  height: 64rpx;
+  padding: 0 24rpx;
+  border-radius: 999rpx;
+  text-align: center;
+  line-height: 64rpx;
+  font-size: 26rpx;
+  color: #3f513f;
+  background: rgba(63, 81, 63, 0.08);
+}
+
+.filter.active {
+  color: #fbf8f1;
+  background: #3f513f;
+}
+
+.garden-list {
+  display: grid;
+  gap: 24rpx;
+}
+
+.loading {
+  padding: 48rpx 0;
+  text-align: center;
+  font-size: 26rpx;
+  color: rgba(31, 45, 61, 0.56);
+}

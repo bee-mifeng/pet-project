@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "纪念页",
+  "usingComponents": {
+    "section-title": "../../components/section-title/index",
+    "empty-state": "../../components/empty-state/index"
+  }
+}

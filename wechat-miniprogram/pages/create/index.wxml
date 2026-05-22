@@ -1,0 +1,68 @@
+<view class="page create-page">
+  <view class="page-title">创建私人纪念页</view>
+  <view class="page-desc">为它保存一张照片、一段故事和一句想说的话。第一版免费创建，是否公开由你决定。</view>
+
+  <view class="form-card card">
+    <view class="field">
+      <label class="form-label">它的名字 *</label>
+      <input class="form-control" placeholder="例如：豆包" value="{{form.pet_name}}" data-key="pet_name" bindinput="inputText" />
+    </view>
+
+    <view class="field">
+      <label class="form-label">它是 *</label>
+      <picker mode="selector" range="{{petTypes}}" range-key="label" value="{{petTypeIndex}}" bindchange="changePetType">
+        <view class="form-control picker-value">{{petTypeIndex >= 0 ? petTypes[petTypeIndex].label : '请选择'}}</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <label class="form-label">它来到你身边的日子</label>
+      <picker mode="date" value="{{form.birth_or_adopted_date}}" data-key="birth_or_adopted_date" bindchange="changeDate">
+        <view class="form-control picker-value">{{form.birth_or_adopted_date || '选择日期'}}</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <label class="form-label">它去星星上的日子</label>
+      <picker mode="date" value="{{form.passed_date}}" data-key="passed_date" bindchange="changeDate">
+        <view class="form-control picker-value">{{form.passed_date || '选择日期'}}</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <label class="form-label">和它有关的一段记忆</label>
+      <textarea class="form-control textarea" maxlength="800" placeholder="写一段你最想保存的记忆" value="{{form.story}}" data-key="story" bindinput="inputText"></textarea>
+    </view>
+
+    <view class="field">
+      <label class="form-label">最想对它说的一句话</label>
+      <textarea class="form-control textarea short" maxlength="300" placeholder="谢谢你来过我的生活" value="{{form.message}}" data-key="message" bindinput="inputText"></textarea>
+    </view>
+
+    <view class="upload-box" bindtap="choosePhoto">
+      <image wx:if="{{photoPath}}" class="upload-preview" src="{{photoPath}}" mode="aspectFill"></image>
+      <view wx:else class="upload-placeholder">
+        <view class="upload-title">上传一张最想保存的照片 *</view>
+        <view class="upload-desc">建议选择清晰、温柔、能代表它的照片。</view>
+      </view>
+    </view>
+
+    <view class="switch-row">
+      <view>
+        <view class="switch-title">申请进入公共记忆花园</view>
+        <view class="switch-desc">提交后会进入人工审核。</view>
+      </view>
+      <switch color="#3F513F" checked="{{form.apply_public}}" data-key="apply_public" bindchange="switchChange"></switch>
+    </view>
+
+    <view class="switch-row">
+      <view>
+        <view class="switch-title">允许他人留言</view>
+        <view class="switch-desc">留言审核通过后才显示。</view>
+      </view>
+      <switch color="#3F513F" checked="{{form.allow_messages}}" data-key="allow_messages" bindchange="switchChange"></switch>
+    </view>
+
+    <button class="primary-button submit-button" loading="{{submitting}}" bindtap="submitForm">保存这一页记忆</button>
+  </view>
+</view>

@@ -1,0 +1,26 @@
+.empty {
+  padding: 54rpx 34rpx;
+  text-align: center;
+}
+
+.empty-mark {
+  width: 88rpx;
+  height: 88rpx;
+  margin: 0 auto 26rpx;
+  border-radius: 50%;
+  line-height: 88rpx;
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #3f513f;
+  background: rgba(212, 175, 55, 0.18);
+}
+
+.empty-title {
+  font-size: 28rpx;
+  line-height: 1.7;
+  color: rgba(31, 45, 61, 0.7);
+}
+
+.empty-button {
+  margin-top: 34rpx;
+}

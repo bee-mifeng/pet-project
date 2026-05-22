@@ -1,0 +1,1 @@
+<button class="nav-button-control {{type === 'ghost' ? 'ghost-button' : 'primary-button'}}" bindtap="tap">{{text}}</button>

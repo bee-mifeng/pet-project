@@ -1,0 +1,64 @@
+<view class="page memorial-page">
+  <view wx:if="{{loading}}" class="loading">正在打开这一页记忆...</view>
+
+  <empty-state wx:elif="{{!memorial}}" title="没有找到这页纪念档案。"></empty-state>
+
+  <block wx:else>
+    <image class="cover card" src="{{memorial.photo_url}}" mode="aspectFill"></image>
+
+    <view class="profile card">
+      <view class="profile-top">
+        <view>
+          <view class="pet-name">{{memorial.pet_name}}</view>
+          <view class="pet-meta">{{memorial.pet_type_label}} · {{memorial.years}}</view>
+        </view>
+        <text class="badge">{{memorial.status_label}}</text>
+      </view>
+
+      <view wx:if="{{memorial.review_status === 'private'}}" class="status-note">
+        这是私人纪念页，只有获得链接的人可以查看。
+      </view>
+      <view wx:elif="{{memorial.review_status === 'pending'}}" class="status-note">
+        公开申请审核中。
+      </view>
+      <view wx:elif="{{memorial.review_status === 'approved'}}" class="status-note">
+        已进入公共记忆花园。
+      </view>
+      <view wx:elif="{{memorial.review_status === 'rejected'}}" class="status-note">
+        公开申请未通过，可修改后重新申请。
+      </view>
+
+      <button wx:if="{{memorial.review_status === 'private'}}" class="ghost-button status-button" bindtap="applyPublic">申请进入公共记忆花园</button>
+      <button wx:if="{{memorial.review_status === 'rejected'}}" class="ghost-button status-button" bindtap="applyPublic">重新申请公开</button>
+    </view>
+
+    <section-title title="它的故事"></section-title>
+    <view class="story card">{{memorial.story || '主人还没有写下更多故事。'}}</view>
+
+    <section-title title="想对它说的话"></section-title>
+    <view class="message-card card">{{memorial.message || '这一句想念，先安静留在心里。'}}</view>
+
+    <view class="actions">
+      <button class="primary-button" data-type="flower" bindtap="interact">献花 · {{memorial.flowers_count || 0}}</button>
+      <button class="ghost-button" data-type="paw_light" bindtap="interact">点亮小爪印 · {{memorial.paw_lights_count || 0}}</button>
+      <button class="quiet-button" open-type="share">分享给亲友</button>
+      <button class="quiet-button" bindtap="showQrPlaceholder">二维码纪念卡</button>
+    </view>
+
+    <section-title title="留言祝福"></section-title>
+    <view wx:if="{{!memorial.allow_messages}}" class="closed card">主人暂时关闭了留言。</view>
+
+    <view wx:else class="comment-form card">
+      <input class="form-control" placeholder="你的称呼，可不填" value="{{comment.visitor_name}}" data-key="visitor_name" bindinput="inputMessage" />
+      <textarea class="form-control textarea comment-textarea" placeholder="留下祝福，通过审核后会显示" value="{{comment.content}}" data-key="content" bindinput="inputMessage"></textarea>
+      <button class="primary-button" loading="{{submittingMessage}}" bindtap="submitMessage">留下祝福</button>
+    </view>
+
+    <view wx:if="{{messages.length > 0}}" class="messages">
+      <view wx:for="{{messages}}" wx:key="_id" class="message-item card">
+        <view class="message-author">{{item.visitor_name || '路过的朋友'}}</view>
+        <view class="message-content">{{item.content}}</view>
+      </view>
+    </view>
+  </block>
+</view>

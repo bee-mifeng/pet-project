@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "审核后台",
+  "usingComponents": {
+    "pet-card": "../../components/pet-card/index",
+    "empty-state": "../../components/empty-state/index"
+  }
+}

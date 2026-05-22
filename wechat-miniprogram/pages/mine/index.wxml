@@ -1,0 +1,33 @@
+<view class="page mine-page">
+  <view class="page-title">我的纪念档案</view>
+  <view class="page-desc">这里会保存你在本机创建过的毛孩子记忆页。后续接入微信登录后，可跨设备同步。</view>
+
+  <button class="primary-button create-button" bindtap="goCreate">创建新的纪念页</button>
+
+  <section-title title="我的纪念档案"></section-title>
+
+  <view wx:if="{{loading}}" class="loading">正在整理你的纪念页...</view>
+
+  <view wx:elif="{{memorials.length > 0}}" class="mine-list">
+    <view wx:for="{{memorials}}" wx:key="_id" class="mine-item">
+      <pet-card item="{{item}}" show-status="{{true}}" bind:open="openMemorial"></pet-card>
+      <button class="danger-button delete-button" data-id="{{item._id}}" bindtap="confirmDelete">删除这页纪念档案</button>
+    </view>
+  </view>
+
+  <empty-state wx:else title="你还没有创建纪念档案。" button-text="创建纪念页" bind:action="goCreate"></empty-state>
+
+  <section-title title="规则与帮助"></section-title>
+  <view class="links card">
+    <view class="policy-link" data-title="用户协议" bindtap="showPolicy">用户协议</view>
+    <view class="policy-link" data-title="隐私政策" bindtap="showPolicy">隐私政策</view>
+    <view class="policy-link" data-title="内容审核说明" bindtap="showPolicy">内容审核说明</view>
+    <view class="policy-link" data-title="删除内容说明" bindtap="showPolicy">删除内容说明</view>
+    <view class="policy-link policy-link-last" data-title="举报入口" bindtap="showPolicy">举报入口</view>
+  </view>
+
+  <view class="debug-openid card">
+    <view class="debug-title">开发期调试信息，上线前可删除</view>
+    <view class="debug-value">当前 openid：{{openid || '获取中'}}</view>
+  </view>
+</view>

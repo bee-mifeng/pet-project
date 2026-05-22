@@ -1,0 +1,51 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/create/index",
+    "pages/garden/index",
+    "pages/memorial/index",
+    "pages/mine/index",
+    "pages/admin/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "PawsMeadow",
+    "navigationBarBackgroundColor": "#FBF8F1",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#FBF8F1",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#7D8F7A",
+    "selectedColor": "#3F513F",
+    "backgroundColor": "#FBF8F1",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "assets/icons/home.png",
+        "selectedIconPath": "assets/icons/home.png"
+      },
+      {
+        "pagePath": "pages/garden/index",
+        "text": "记忆花园",
+        "iconPath": "assets/icons/garden.png",
+        "selectedIconPath": "assets/icons/garden.png"
+      },
+      {
+        "pagePath": "pages/create/index",
+        "text": "创建",
+        "iconPath": "assets/icons/create.png",
+        "selectedIconPath": "assets/icons/create.png"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的",
+        "iconPath": "assets/icons/mine.png",
+        "selectedIconPath": "assets/icons/mine.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

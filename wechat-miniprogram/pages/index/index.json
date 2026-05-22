@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "PawsMeadow",
+  "usingComponents": {
+    "section-title": "../../components/section-title/index",
+    "pet-card": "../../components/pet-card/index"
+  }
+}

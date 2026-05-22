@@ -1,0 +1,45 @@
+<view class="page home-page">
+  <view class="hero">
+    <image class="logo" src="../../assets/logo/pawsmeadow-logo-small.png" mode="aspectFit"></image>
+    <view class="page-title">为离开的毛孩子，创建一页温柔的纪念空间。</view>
+    <view class="page-desc">保存它的照片、故事和你想说的话。你可以只留给自己和亲友查看，也可以申请进入公共记忆花园，让它被看见、被祝福、被温柔记住。</view>
+    <view class="hero-actions">
+      <button class="primary-button" bindtap="goCreate">创建纪念页</button>
+      <button class="ghost-button" bindtap="goGarden">浏览记忆花园</button>
+    </view>
+    <view class="trust">免费创建私人纪念页，是否公开由你决定。</view>
+  </view>
+
+  <section-title title="可以安静保存的记忆"></section-title>
+  <view class="feature-list">
+    <view wx:for="{{featureCards}}" wx:key="title" class="feature-card card">
+      <view class="feature-title">{{item.title}}</view>
+      <view class="feature-desc">{{item.desc}}</view>
+    </view>
+  </view>
+
+  <section-title title="示例纪念卡片" desc="真实创建后会生成可分享的私人纪念页。"></section-title>
+  <pet-card item="{{sample}}"></pet-card>
+
+  <section-title title="使用流程"></section-title>
+  <view class="steps card">
+    <view wx:for="{{steps}}" wx:key="*this" class="step">
+      <text class="step-index">{{index + 1}}</text>
+      <text class="step-text">{{item}}</text>
+    </view>
+  </view>
+
+  <section-title title="服务说明"></section-title>
+  <view class="note-card card">
+    <view>私人纪念页免费创建，公共展示需要经过人工审核。留言祝福也会先进入审核，尽量让这片空间保持安静、克制和善意。</view>
+    <view class="policy-links">用户协议 · 隐私政策 · 内容审核说明 · 删除内容说明 · 举报入口</view>
+  </view>
+
+  <section-title title="常见问题"></section-title>
+  <view class="faq-list">
+    <view wx:for="{{faqs}}" wx:key="q" class="faq card">
+      <view class="faq-q">{{item.q}}</view>
+      <view class="faq-a">{{item.a}}</view>
+    </view>
+  </view>
+</view>

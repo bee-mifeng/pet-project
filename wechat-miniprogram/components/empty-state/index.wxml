@@ -1,0 +1,5 @@
+<view class="empty card">
+  <view class="empty-mark">PM</view>
+  <view class="empty-title">{{title}}</view>
+  <button wx:if="{{buttonText}}" class="primary-button empty-button" bindtap="tapButton">{{buttonText}}</button>
+</view>

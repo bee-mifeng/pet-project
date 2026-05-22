@@ -1,0 +1,49 @@
+<view class="page admin-page">
+  <view class="page-title">审核后台</view>
+  <view class="notice card">当前为内部审核入口，正式上线前请增加访问权限。</view>
+
+  <view wx:if="{{!authChecked}}" class="loading">正在校验管理员身份...</view>
+
+  <view wx:elif="{{!isAdmin}}" class="no-access card">
+    <view class="no-access-title">无权限访问</view>
+    <view class="no-access-desc">当前 openid：{{openid || '获取失败'}}</view>
+  </view>
+
+  <block wx:else>
+    <view class="admin-openid card">当前管理员 openid：{{openid}}</view>
+
+    <view class="tabs">
+      <view class="tab {{activeTab === 'memorials' ? 'active' : ''}}" data-tab="memorials" bindtap="switchTab">待审核纪念页</view>
+      <view class="tab {{activeTab === 'messages' ? 'active' : ''}}" data-tab="messages" bindtap="switchTab">待审核留言</view>
+    </view>
+
+    <view wx:if="{{loading}}" class="loading">正在加载待审核内容...</view>
+
+    <block wx:elif="{{activeTab === 'memorials'}}">
+      <view wx:if="{{pendingMemorials.length > 0}}" class="review-list">
+        <view wx:for="{{pendingMemorials}}" wx:key="_id" class="review-item">
+          <pet-card item="{{item}}" show-status="{{true}}"></pet-card>
+          <view class="review-actions">
+            <button class="primary-button" data-id="{{item._id}}" data-approved="true" bindtap="reviewMemorial">通过</button>
+            <button class="danger-button" data-id="{{item._id}}" data-approved="false" bindtap="reviewMemorial">拒绝</button>
+          </view>
+        </view>
+      </view>
+      <empty-state wx:else title="暂无待审核公开申请。"></empty-state>
+    </block>
+
+    <block wx:else>
+      <view wx:if="{{pendingMessages.length > 0}}" class="message-list">
+        <view wx:for="{{pendingMessages}}" wx:key="_id" class="message-card card">
+          <view class="message-author">{{item.visitor_name || '路过的朋友'}}</view>
+          <view class="message-content">{{item.content}}</view>
+          <view class="review-actions">
+            <button class="primary-button" data-id="{{item._id}}" data-approved="true" bindtap="reviewMessage">通过</button>
+            <button class="danger-button" data-id="{{item._id}}" data-approved="false" bindtap="reviewMessage">拒绝</button>
+          </view>
+        </view>
+      </view>
+      <empty-state wx:else title="暂无待审核留言。"></empty-state>
+    </block>
+  </block>
+</view>
