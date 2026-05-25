@@ -1,0 +1,36 @@
+<view class="page doc-page safe-bottom">
+  <view class="page-title">内容审核说明</view>
+  <view class="page-desc">记忆花园是一个安静的公共空间。审核不是为了制造门槛，而是为了让每一份公开展示都更安心。</view>
+
+  <view class="doc-card card">
+    <view class="doc-section">
+      <view class="doc-title">为什么需要审核</view>
+      <view class="doc-p">公开记忆卡和留言会被更多人看到。审核可以减少广告、冒犯、侵权和不适合展示的内容，让记忆花园保持温柔和清晰。</view>
+    </view>
+
+    <view class="doc-section">
+      <view class="doc-title">哪些内容需要审核</view>
+      <view class="doc-p">申请公开的记忆卡、用户上传的照片和视频、故事文字、想说的话，以及访客提交的留言祝福都可能进入审核流程。</view>
+    </view>
+
+    <view class="doc-section">
+      <view class="doc-title">审核通过后如何展示</view>
+      <view class="doc-p">记忆卡审核通过后，会展示到记忆花园；留言审核通过后，会显示在对应记忆卡页面中。未申请公开的记忆卡不会进入公共列表。</view>
+    </view>
+
+    <view class="doc-section">
+      <view class="doc-title">审核不通过的情况</view>
+      <view class="doc-p">包含攻击辱骂、广告交易、诱导添加联系方式、侵犯他人权益、违法违规、过度血腥或与毛孩子记忆无关的内容，可能无法通过审核。</view>
+    </view>
+
+    <view class="doc-section">
+      <view class="doc-title">人工审核时间说明</view>
+      <view class="doc-p">当前采用人工审核。审核时间会受提交数量和人工处理节奏影响，我们会尽量在合理时间内完成处理。</view>
+    </view>
+
+    <view class="doc-section">
+      <view class="doc-title">关闭公开或申请删除</view>
+      <view class="doc-p">如果你不希望继续公开展示，可以关闭公开或申请删除相关内容。我们会在核对创建者身份后协助处理。</view>
+    </view>
+  </view>
+</view>

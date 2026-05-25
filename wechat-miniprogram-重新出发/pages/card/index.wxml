@@ -1,0 +1,90 @@
+<view class="page card-page safe-bottom">
+  <view class="page-title">记忆卡</view>
+
+  <view wx:if="{{loading}}" class="empty card">正在打开这页记忆...</view>
+  <view wx:elif="{{loadFailed}}" class="empty card">暂时没有加载成功，请稍后再试。</view>
+  <view wx:elif="{{!card}}" class="empty card">没有找到这张记忆卡。</view>
+  <block wx:else>
+    <view class="detail card">
+      <image wx:if="{{card.photo_src}}" class="hero-photo" src="{{card.photo_src}}" mode="aspectFill"></image>
+      <view wx:if="{{card.video_src}}" class="video-section">
+        <view class="media-title">视频记忆</view>
+        <video class="hero-video" src="{{card.video_src}}" poster="{{card.photo_src}}" controls object-fit="contain"></video>
+      </view>
+      <view class="detail-body">
+        <view class="detail-top">
+          <view>
+            <view class="pet-name">{{card.pet_name}}</view>
+            <view class="pet-meta">{{card.pet_type_label}} · {{card.timeline}}</view>
+          </view>
+          <view class="badge">{{card.pet_status_label}}</view>
+        </view>
+
+        <view class="story-block">
+          <view class="block-title">关于它的一段记忆</view>
+          <view class="block-text">{{card.story || "主人还没有写下故事。"}}</view>
+        </view>
+
+        <view class="story-block">
+          <view class="block-title">最想对它说的话</view>
+          <view class="quote">{{card.message || "这句话先安静地留在心里。"}}</view>
+        </view>
+
+        <view class="interaction-row">
+          <button class="ghost-button small-button" data-type="{{card.primary_interaction_type}}" bindtap="interact">{{card.primary_interaction_label}} {{card.primary_interaction_count}}</button>
+          <button class="ghost-button small-button" data-type="paw_light" bindtap="interact">点亮小爪印 {{card.paw_lights_count || 0}}</button>
+        </view>
+
+        <view wx:if="{{isOwner}}" class="owner-panel">
+          <view class="owner-status-section">
+            <view class="owner-label-row">
+              <view class="owner-label">毛孩子状态</view>
+              <view class="owner-hint">主人可修改</view>
+            </view>
+            <view class="owner-segmented">
+              <view
+                class="owner-segment {{card.pet_status === 'living' ? 'active' : ''}}"
+                data-status="living"
+                bindtap="changeOwnerPetStatus"
+              >陪伴中</view>
+              <view
+                class="owner-segment {{card.pet_status === 'star' ? 'active' : ''}}"
+                data-status="star"
+                bindtap="changeOwnerPetStatus"
+              >在星星上</view>
+            </view>
+            <picker wx:if="{{card.pet_status === 'star'}}" mode="date" value="{{card.star_date}}" bindchange="changeOwnerStarDate">
+              <view class="owner-date-row">
+                <text>去星星上的日子</text>
+                <text>{{card.star_date || "选择日期"}}</text>
+              </view>
+            </picker>
+          </view>
+          <view class="owner-status">公开状态：{{card.visibility_label}}</view>
+          <button wx:if="{{card.visibility === 'private' || card.visibility === 'rejected'}}" class="quiet-button owner-button" bindtap="applyPublic">申请进入记忆花园</button>
+          <button wx:if="{{card.visibility === 'public'}}" class="danger-button owner-button" bindtap="makePrivate">取消公开展示</button>
+          <button wx:if="{{card.visibility === 'pending'}}" class="quiet-button owner-button" bindtap="makePrivate">撤回公开申请</button>
+        </view>
+      </view>
+    </view>
+
+    <view class="message-panel card">
+      <view class="panel-title">{{card.message_action_label}}</view>
+      <view wx:if="{{!card.allow_messages}}" class="muted">主人暂时没有打开留言。</view>
+      <block wx:else>
+        <input class="form-control" value="{{comment.visitor_name}}" data-key="visitor_name" bindinput="inputMessage" placeholder="你的称呼，可不填" />
+        <textarea class="form-control textarea message-textarea" value="{{comment.content}}" data-key="content" bindinput="inputMessage" maxlength="180" placeholder="写下一句温柔的话，审核后会显示" />
+        <button class="primary-button message-button" loading="{{submittingMessage}}" bindtap="submitMessage">{{card.message_action_label}}</button>
+      </block>
+    </view>
+
+    <view class="section-title">留言</view>
+    <view wx:if="{{messages.length === 0}}" class="empty card">还没有公开显示的留言。</view>
+    <view wx:else class="messages">
+      <view wx:for="{{messages}}" wx:key="_id" class="message-item card">
+        <view class="message-name">{{item.visitor_name || "路过的朋友"}}</view>
+        <view class="message-content">{{item.content}}</view>
+      </view>
+    </view>
+  </block>
+</view>

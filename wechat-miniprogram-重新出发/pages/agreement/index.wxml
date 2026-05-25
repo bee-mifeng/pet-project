@@ -1,0 +1,36 @@
+<view class="page doc-page safe-bottom">
+  <view class="page-title">用户协议</view>
+  <view class="page-desc">这份说明帮助你了解 PawsMeadow 的使用边界。我们希望它保持安静、友善，也让每一份记忆都被妥善对待。</view>
+
+  <view class="doc-card card">
+    <view class="doc-section">
+      <view class="doc-title">服务说明</view>
+      <view class="doc-p">PawsMeadow 毛孩子记忆册用于保存宠物照片、视频、故事、日期和想说的话。你可以创建默认私密的记忆卡，也可以主动申请公开到记忆花园。</view>
+    </view>
+
+    <view class="doc-section">
+      <view class="doc-title">用户内容归属</view>
+      <view class="doc-p">你上传和填写的照片、视频、文字、留言等内容仍归你或原权利人所有。你需要确认自己有权保存和使用这些内容。</view>
+    </view>
+
+    <view class="doc-section">
+      <view class="doc-title">使用规则</view>
+      <view class="doc-p">请不要上传侵犯他人权益、包含广告交易、攻击辱骂、违法违规或不适合公共展示的内容。留言也请保持真实、克制和善意。</view>
+    </view>
+
+    <view class="doc-section">
+      <view class="doc-title">公开展示规则</view>
+      <view class="doc-p">记忆卡默认私密保存。只有你主动申请公开，并通过人工审核后，才会出现在记忆花园。未通过审核的内容不会公开展示。</view>
+    </view>
+
+    <view class="doc-section">
+      <view class="doc-title">内容修改与删除</view>
+      <view class="doc-p">如果你希望修改、关闭公开或删除已创建的内容，可以通过小程序内提供的入口或联系运营方处理。我们会在合理时间内协助核对和处理。</view>
+    </view>
+
+    <view class="doc-section">
+      <view class="doc-title">免责声明</view>
+      <view class="doc-p">本服务用于个人纪念和温柔分享，不提供医疗、法律、心理咨询等专业建议。因用户自行上传内容产生的权属或展示争议，由上传者先行负责。</view>
+    </view>
+  </view>
+</view>

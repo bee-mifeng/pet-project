@@ -1,0 +1,62 @@
+<view class="page garden-page safe-bottom">
+  <view class="page-title">记忆花园</view>
+  <view class="page-desc">这里收藏着主人愿意分享的毛孩子故事。每一段陪伴，都值得被温柔记住。</view>
+
+  <view class="filter-panel">
+    <view class="filter-group">
+      <view class="filter-title">宠物</view>
+      <scroll-view class="filters" scroll-x enable-flex>
+        <view class="filter-wrap">
+          <view
+            wx:for="{{petTypeFilters}}"
+            wx:key="value"
+            class="filter {{activePetType === item.value ? 'active' : ''}}"
+            data-filter="{{item.value}}"
+            bindtap="changePetTypeFilter"
+          >{{item.label}}</view>
+        </view>
+      </scroll-view>
+    </view>
+
+    <view class="filter-group">
+      <view class="filter-title">状态</view>
+      <scroll-view class="filters" scroll-x enable-flex>
+        <view class="filter-wrap">
+          <view
+            wx:for="{{statusFilters}}"
+            wx:key="value"
+            class="filter {{activePetStatus === item.value ? 'active' : ''}}"
+            data-filter="{{item.value}}"
+            bindtap="changeStatusFilter"
+          >{{item.label}}</view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="empty card">正在整理记忆花园...</view>
+  <view wx:elif="{{loadFailed}}" class="empty card">暂时没有加载成功，请稍后再试。</view>
+  <view wx:elif="{{cards.length === 0}}" class="empty card">这里还很安静，等待更多主人分享毛孩子的故事。</view>
+  <view wx:else class="card-list">
+    <view wx:for="{{cards}}" wx:key="_id" class="memory-card card">
+      <view class="card-cover">
+        <image class="card-photo" src="{{item.photo_src}}" mode="aspectFill"></image>
+        <view wx:if="{{item.video_src}}" class="video-badge">含视频</view>
+      </view>
+      <view class="card-body">
+        <view class="card-top">
+          <view class="card-name">{{item.pet_name}}</view>
+          <view class="badge">{{item.pet_status_label}}</view>
+        </view>
+        <view class="card-meta">{{item.pet_type_label}} · {{item.timeline}}</view>
+        <view class="card-story">{{item.brief_story}}</view>
+        <view class="card-stats">
+          <text>喜欢 {{item.like_count || 0}}</text>
+          <text>献花 {{item.flower_count || 0}}</text>
+          <text>爪印 {{item.paw_lights_count || 0}}</text>
+        </view>
+        <button class="quiet-button card-button" data-id="{{item._id}}" bindtap="openCard">查看记忆卡</button>
+      </view>
+    </view>
+  </view>
+</view>

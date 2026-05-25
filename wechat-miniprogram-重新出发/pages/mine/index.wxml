@@ -1,0 +1,34 @@
+<view class="page mine-page safe-bottom">
+  <view class="page-title">我的毛孩子记忆卡</view>
+  <view class="page-desc">这里保存你为毛孩子创建的所有记忆卡。</view>
+
+  <view wx:if="{{loading}}" class="empty card">正在读取我的记忆卡...</view>
+  <view wx:elif="{{loadFailed}}" class="empty card">暂时没有加载成功，请稍后再试。</view>
+  <view wx:elif="{{cards.length === 0}}" class="empty card">
+    <view>还没有创建记忆卡。</view>
+    <button class="primary-button empty-button" bindtap="goCreate">创建第一张</button>
+  </view>
+  <view wx:else class="mine-list">
+    <view wx:for="{{cards}}" wx:key="_id" class="mine-item card" data-id="{{item._id}}" bindtap="openCard">
+      <image class="mine-photo" src="{{item.photo_src}}" mode="aspectFill"></image>
+      <view class="mine-body">
+        <view class="mine-top">
+          <view class="mine-name">{{item.pet_name}}</view>
+          <view class="badge">{{item.visibility_label}}</view>
+        </view>
+        <view class="mine-meta">
+          <text>{{item.pet_type_label}}</text>
+          <text class="meta-dot">·</text>
+          <view
+            class="status-chip"
+            data-id="{{item._id}}"
+            data-status="{{item.pet_status}}"
+            data-star-date="{{item.star_date}}"
+            catchtap="choosePetStatus"
+          >{{item.pet_status_label}}</view>
+        </view>
+        <view class="mine-time">{{item.timeline}}</view>
+      </view>
+    </view>
+  </view>
+</view>

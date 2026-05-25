@@ -1,0 +1,54 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/create/index",
+    "pages/card/index",
+    "pages/garden/index",
+    "pages/mine/index",
+    "pages/admin/index",
+    "pages/privacy/index",
+    "pages/agreement/index",
+    "pages/rules/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "PawsMeadow",
+    "navigationBarBackgroundColor": "#FBF7EE",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#FBF7EE",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#7D8A7A",
+    "selectedColor": "#36543A",
+    "backgroundColor": "#FBF8F1",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "assets/tabbar/home.png",
+        "selectedIconPath": "assets/tabbar/home-active.png"
+      },
+      {
+        "pagePath": "pages/garden/index",
+        "text": "记忆花园",
+        "iconPath": "assets/tabbar/garden.png",
+        "selectedIconPath": "assets/tabbar/garden-active.png"
+      },
+      {
+        "pagePath": "pages/create/index",
+        "text": "创建",
+        "iconPath": "assets/tabbar/create.png",
+        "selectedIconPath": "assets/tabbar/create-active.png"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的",
+        "iconPath": "assets/tabbar/mine.png",
+        "selectedIconPath": "assets/tabbar/mine-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

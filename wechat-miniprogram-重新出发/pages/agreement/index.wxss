@@ -1,0 +1,32 @@
+.doc-card {
+  margin-top: 28rpx;
+  padding: 30rpx;
+}
+
+.doc-section {
+  padding: 26rpx 0;
+  border-bottom: 1rpx solid rgba(47, 75, 56, 0.08);
+}
+
+.doc-section:first-child {
+  padding-top: 0;
+}
+
+.doc-section:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.doc-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #2f4b38;
+}
+
+.doc-p {
+  margin-top: 12rpx;
+  font-size: 27rpx;
+  line-height: 1.78;
+  color: rgba(31, 45, 42, 0.76);
+}

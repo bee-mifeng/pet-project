@@ -1,0 +1,75 @@
+.mine-list {
+  display: grid;
+  gap: 18rpx;
+  margin-top: 28rpx;
+}
+
+.mine-item {
+  display: grid;
+  grid-template-columns: 168rpx 1fr;
+  gap: 22rpx;
+  padding: 20rpx;
+}
+
+.mine-photo {
+  width: 168rpx;
+  height: 168rpx;
+  border-radius: 24rpx;
+}
+
+.mine-body {
+  min-width: 0;
+  padding: 8rpx 0;
+}
+
+.mine-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14rpx;
+}
+
+.mine-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #2f4b38;
+}
+
+.mine-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10rpx;
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: rgba(31, 45, 42, 0.62);
+}
+
+.mine-time {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: rgba(31, 45, 42, 0.62);
+}
+
+.meta-dot {
+  color: rgba(31, 45, 42, 0.34);
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42rpx;
+  padding: 0 16rpx;
+  border-radius: 999rpx;
+  font-size: 23rpx;
+  font-weight: 600;
+  color: #2f4b38;
+  background: rgba(47, 75, 56, 0.09);
+}
+
+.empty-button {
+  margin-top: 24rpx;
+}

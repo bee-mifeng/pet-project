@@ -1,0 +1,61 @@
+<view class="page admin-page safe-bottom">
+  <view class="page-title">审核后台</view>
+  <view class="page-desc">这里用于审核申请公开的记忆卡，以及等待展示的留言。</view>
+
+  <view wx:if="{{!authChecked}}" class="empty card">正在校验身份...</view>
+  <view wx:elif="{{!isAdmin}}" class="empty card">
+    <view>当前账号没有审核权限。</view>
+    <view class="admin-openid">openid：{{openid || "未获取"}}</view>
+  </view>
+  <block wx:else>
+    <view class="admin-meta card">
+      <view>当前为审核账号</view>
+      <view class="admin-openid">{{openid}}</view>
+    </view>
+
+    <view class="tabs">
+      <view class="tab {{activeTab === 'cards' ? 'active' : ''}}" data-tab="cards" bindtap="switchTab">记忆卡</view>
+      <view class="tab {{activeTab === 'messages' ? 'active' : ''}}" data-tab="messages" bindtap="switchTab">留言</view>
+    </view>
+
+    <view wx:if="{{loading}}" class="empty card">正在读取待审核内容...</view>
+
+    <block wx:elif="{{activeTab === 'cards'}}">
+      <view wx:if="{{pendingCards.length === 0}}" class="empty card">没有待审核记忆卡。</view>
+      <view wx:else class="review-list">
+        <view wx:for="{{pendingCards}}" wx:key="_id" class="review-card card">
+          <image wx:if="{{item.photo_src}}" class="review-photo" src="{{item.photo_src}}" mode="aspectFill"></image>
+          <view wx:if="{{item.video_src}}" class="review-video-wrap">
+            <view class="review-media-title">视频记忆</view>
+            <video class="review-video" src="{{item.video_src}}" poster="{{item.photo_src}}" controls object-fit="contain"></video>
+          </view>
+          <view class="review-body">
+            <view class="review-title">{{item.pet_name}}</view>
+            <view class="review-meta">{{item.pet_type_label}} · {{item.pet_status_label}} · {{item.timeline}}</view>
+            <view class="review-text">{{item.brief_story}}</view>
+            <view class="review-actions">
+              <button class="quiet-button action-button" data-id="{{item._id}}" bindtap="openCard">查看详情</button>
+              <button class="primary-button action-button" data-id="{{item._id}}" data-approved="true" bindtap="reviewCard">通过审核</button>
+              <button class="danger-button action-button" data-id="{{item._id}}" data-approved="false" bindtap="reviewCard">拒绝公开</button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <block wx:else>
+      <view wx:if="{{pendingMessages.length === 0}}" class="empty card">没有待审核留言。</view>
+      <view wx:else class="review-list">
+        <view wx:for="{{pendingMessages}}" wx:key="_id" class="message-review card">
+          <view class="message-name">{{item.visitor_name || "路过的朋友"}}</view>
+          <view class="message-content">{{item.content}}</view>
+          <view class="message-card-id">card_id：{{item.card_id}}</view>
+          <view class="review-actions">
+            <button class="primary-button action-button" data-id="{{item._id}}" data-approved="true" bindtap="reviewMessage">通过留言</button>
+            <button class="danger-button action-button" data-id="{{item._id}}" data-approved="false" bindtap="reviewMessage">拒绝留言</button>
+          </view>
+        </view>
+      </view>
+    </block>
+  </block>
+</view>

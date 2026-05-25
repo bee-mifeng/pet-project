@@ -1,0 +1,122 @@
+.admin-meta {
+  margin-top: 28rpx;
+  padding: 24rpx;
+  font-size: 25rpx;
+  color: #2f4b38;
+}
+
+.admin-openid {
+  margin-top: 10rpx;
+  word-break: break-all;
+  font-size: 22rpx;
+  color: rgba(31, 45, 42, 0.62);
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14rpx;
+  margin: 28rpx 0 22rpx;
+  padding: 8rpx;
+  border-radius: 28rpx;
+  background: rgba(47, 75, 56, 0.08);
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 72rpx;
+  border-radius: 22rpx;
+  text-align: center;
+  font-size: 26rpx;
+  line-height: 1.2;
+  color: rgba(31, 45, 42, 0.64);
+}
+
+.tab.active {
+  color: #fffdf8;
+  background: #2f4b38;
+}
+
+.review-list {
+  display: grid;
+  gap: 18rpx;
+}
+
+.review-card {
+  overflow: hidden;
+}
+
+.review-photo,
+.review-video {
+  width: 100%;
+  height: 320rpx;
+  display: block;
+}
+
+.review-video-wrap {
+  padding: 22rpx 26rpx 0;
+  background: #fffdf8;
+}
+
+.review-media-title {
+  margin-bottom: 14rpx;
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #2f4b38;
+}
+
+.review-video-wrap .review-video {
+  overflow: hidden;
+  border-radius: 22rpx;
+  background: #111;
+}
+
+.review-body,
+.message-review {
+  padding: 26rpx;
+}
+
+.review-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #2f4b38;
+}
+
+.review-meta,
+.message-card-id {
+  margin-top: 10rpx;
+  font-size: 23rpx;
+  color: rgba(31, 45, 42, 0.58);
+}
+
+.review-text,
+.message-content {
+  margin-top: 16rpx;
+  font-size: 27rpx;
+  line-height: 1.68;
+  color: rgba(31, 45, 42, 0.74);
+}
+
+.message-name {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #2f4b38;
+}
+
+.review-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16rpx;
+  margin-top: 24rpx;
+}
+
+.action-button {
+  width: 100%;
+  height: 76rpx;
+  margin: 0;
+  font-size: 26rpx;
+  line-height: 1.2;
+}

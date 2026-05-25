@@ -1,0 +1,87 @@
+<view class="page create-page safe-bottom">
+  <view class="page-title">创建毛孩子记忆卡</view>
+  <view class="page-desc">保存一张照片、一段故事，和你最想对它说的话。</view>
+
+  <view class="form-card card">
+    <view class="field">
+      <text class="form-label">它的名字</text>
+      <input class="form-control" value="{{form.pet_name}}" data-key="pet_name" bindinput="inputText" placeholder="比如：豆包" />
+    </view>
+
+    <view class="field">
+      <text class="form-label">它是</text>
+      <picker mode="selector" range="{{petTypes}}" range-key="label" value="{{petTypeIndex}}" bindchange="changePetType">
+        <view class="form-control picker-text">{{petTypeIndex >= 0 ? petTypes[petTypeIndex].label : "请选择猫咪、狗狗或其他小动物"}}</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <text class="form-label">当前状态</text>
+      <view class="segmented">
+        <view class="segment {{form.pet_status === 'living' ? 'active' : ''}}" data-status="living" bindtap="changePetStatus">陪伴中</view>
+        <view class="segment {{form.pet_status === 'star' ? 'active' : ''}}" data-status="star" bindtap="changePetStatus">在星星上</view>
+      </view>
+    </view>
+
+    <view class="field">
+      <text class="form-label">来到你身边的日子</text>
+      <picker mode="date" value="{{form.birth_or_adopted_date}}" bindchange="changeDate" data-key="birth_or_adopted_date">
+        <view class="form-control picker-text">{{form.birth_or_adopted_date || "选择日期"}}</view>
+      </picker>
+    </view>
+
+    <view class="field" wx:if="{{form.pet_status === 'star'}}">
+      <text class="form-label">去星星上的日子</text>
+      <picker mode="date" value="{{form.star_date}}" bindchange="changeDate" data-key="star_date">
+        <view class="form-control picker-text">{{form.star_date || "选择日期"}}</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <text class="form-label">上传一张最想保存的照片</text>
+      <view class="field-help">图片大小不超过 2MB。</view>
+      <view class="photo-picker" bindtap="choosePhoto">
+        <image wx:if="{{photoPath}}" class="photo-preview" src="{{photoPath}}" mode="aspectFill"></image>
+        <view wx:else class="photo-empty">选择照片</view>
+      </view>
+    </view>
+
+    <view class="field">
+      <text class="form-label">上传一段想保存的视频</text>
+      <view class="field-help">可选，视频不超过 20 秒，大小不超过 30MB。</view>
+      <view wx:if="{{videoPath}}" class="video-box">
+        <video class="video-preview" src="{{videoPath}}" controls object-fit="cover"></video>
+        <button class="quiet-button remove-video" bindtap="removeVideo">移除视频</button>
+      </view>
+      <view wx:else class="video-picker" bindtap="chooseVideo">选择视频</view>
+    </view>
+
+    <view class="field">
+      <text class="form-label">关于它的一段记忆</text>
+      <textarea class="form-control textarea" value="{{form.story}}" data-key="story" bindinput="inputText" maxlength="500" placeholder="写下一个你总会想起的瞬间" />
+    </view>
+
+    <view class="field">
+      <text class="form-label">最想对它说的一句话</text>
+      <textarea class="form-control textarea short-textarea" value="{{form.message}}" data-key="message" bindinput="inputText" maxlength="160" placeholder="比如：谢谢你一直陪着我" />
+    </view>
+
+    <view class="switch-row">
+      <view>
+        <view class="switch-title">申请公开到记忆花园</view>
+        <view class="switch-desc">公开前会先进入审核。</view>
+      </view>
+      <switch color="#2F4B38" checked="{{form.visibility === 'pending'}}" bindchange="switchVisibility"></switch>
+    </view>
+
+    <view class="switch-row">
+      <view>
+        <view class="switch-title">允许留言祝福</view>
+        <view class="switch-desc">留言审核后才会展示。</view>
+      </view>
+      <switch color="#2F4B38" checked="{{form.allow_messages}}" data-key="allow_messages" bindchange="switchChange"></switch>
+    </view>
+  </view>
+
+  <button class="primary-button submit-button" loading="{{submitting}}" bindtap="submitForm">保存这页记忆</button>
+</view>
