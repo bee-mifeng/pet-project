@@ -48,35 +48,60 @@ async function createCard(input) {
   }
 }
 
+async function callMemorialApi(action, data) {
+  const result = await wx.cloud.callFunction({
+    name: "memorialApi",
+    data: {
+      action,
+      data: data || {}
+    }
+  });
+  return result && result.result ? result.result.data : null;
+}
+
 async function getCard(options) {
   try {
-    if (options.id) {
-      const result = await cards.doc(options.id).get();
-      return result.data || null;
-    }
-
-    const result = await cards.where({ slug: options.slug }).limit(1).get();
-    return result.data[0] || null;
+    return await callMemorialApi("getCard", options);
   } catch (error) {
-    console.error("读取记忆卡失败", error);
-    throw error;
+    console.warn("云函数读取记忆卡失败，改用本地数据库读取", error);
+    try {
+      if (options.id) {
+        const result = await cards.doc(options.id).get();
+        return result.data ? { ...result.data, _id: result.data._id || options.id } : null;
+      }
+
+      const result = await cards.where({ slug: options.slug }).limit(1).get();
+      return result.data[0] || null;
+    } catch (fallbackError) {
+      console.error("读取记忆卡失败", fallbackError);
+      throw fallbackError;
+    }
   }
 }
 
 async function listPublicCards(filter) {
-  const where = { visibility: "public" };
-  const filterObject = filter && typeof filter === "object" ? filter : null;
-  const petType = filterObject ? filterObject.petType : filter;
-  const petStatus = filterObject ? filterObject.petStatus : filter;
-  if (petType === "cat" || petType === "dog" || petType === "other") where.pet_type = petType;
-  if (petStatus === "living" || petStatus === "star") where.pet_status = petStatus;
+  const filterObject = filter && typeof filter === "object"
+    ? filter
+    : { petType: filter };
 
   try {
-    const result = await cards.where(where).orderBy("created_at", "desc").get();
-    return result.data || [];
+    return await callMemorialApi("listPublicCards", { filter: filterObject }) || [];
   } catch (error) {
-    console.error("读取记忆花园失败", error);
-    throw error;
+    console.warn("云函数读取记忆花园失败，改用本地数据库读取", error);
+    try {
+      const where = { visibility: "public" };
+      if (filterObject.petType === "cat" || filterObject.petType === "dog" || filterObject.petType === "other") {
+        where.pet_type = filterObject.petType;
+      }
+      if (filterObject.petStatus === "living" || filterObject.petStatus === "star") {
+        where.pet_status = filterObject.petStatus;
+      }
+      const result = await cards.where(where).orderBy("created_at", "desc").get();
+      return result.data || [];
+    } catch (fallbackError) {
+      console.error("读取记忆花园失败", fallbackError);
+      throw fallbackError;
+    }
   }
 }
 
@@ -93,11 +118,16 @@ async function listMine(openid) {
 
 async function listPendingCards() {
   try {
-    const result = await cards.where({ visibility: "pending" }).orderBy("created_at", "desc").get();
-    return result.data || [];
+    return await callMemorialApi("listPendingCards") || [];
   } catch (error) {
-    console.error("读取待审核记忆卡失败", error);
-    throw error;
+    console.warn("云函数读取待审核记忆卡失败，改用本地数据库读取", error);
+    try {
+      const result = await cards.where({ visibility: "pending" }).orderBy("created_at", "desc").get();
+      return result.data || [];
+    } catch (fallbackError) {
+      console.error("读取待审核记忆卡失败", fallbackError);
+      throw fallbackError;
+    }
   }
 }
 
@@ -147,12 +177,7 @@ async function updatePetStatus(id, status, starDate) {
 
 async function reviewCard(id, approved) {
   try {
-    await cards.doc(id).update({
-      data: {
-        visibility: approved ? "public" : "rejected",
-        updated_at: now()
-      }
-    });
+    await callMemorialApi("reviewCard", { id, approved });
   } catch (error) {
     console.error("审核记忆卡失败", error);
     throw error;

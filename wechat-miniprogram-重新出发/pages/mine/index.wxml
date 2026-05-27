@@ -2,6 +2,14 @@
   <view class="page-title">我的毛孩子记忆卡</view>
   <view class="page-desc">这里保存你为毛孩子创建的所有记忆卡。</view>
 
+  <view wx:if="{{isAdmin}}" class="admin-entry card">
+    <view class="admin-entry-body">
+      <view class="admin-entry-title">审核后台</view>
+      <view class="admin-entry-desc">审核公开申请与留言祝福</view>
+    </view>
+    <button class="primary-button admin-entry-button" bindtap="goAdmin">进入审核后台</button>
+  </view>
+
   <view wx:if="{{loading}}" class="empty card">正在读取我的记忆卡...</view>
   <view wx:elif="{{loadFailed}}" class="empty card">暂时没有加载成功，请稍后再试。</view>
   <view wx:elif="{{cards.length === 0}}" class="empty card">
@@ -14,16 +22,19 @@
       <view class="mine-body">
         <view class="mine-top">
           <view class="mine-name">{{item.pet_name}}</view>
-          <view class="badge">{{item.visibility_label}}</view>
+          <view class="badge visibility-badge visibility-{{item.visibility_class}}">{{item.visibility_label}}</view>
         </view>
         <view class="mine-meta">
           <text>{{item.pet_type_label}}</text>
           <text class="meta-dot">·</text>
+          <picker wx:if="{{item.pet_status !== 'star'}}" mode="date" data-id="{{item._id}}" value="{{item.star_date}}" catchtap="noop" bindchange="changeMineStarDate">
+            <view class="status-chip status-living">陪伴中</view>
+          </picker>
           <view
-            class="status-chip"
+            wx:else
+            class="status-chip status-{{item.pet_status_class}}"
             data-id="{{item._id}}"
             data-status="{{item.pet_status}}"
-            data-star-date="{{item.star_date}}"
             catchtap="choosePetStatus"
           >{{item.pet_status_label}}</view>
         </view>

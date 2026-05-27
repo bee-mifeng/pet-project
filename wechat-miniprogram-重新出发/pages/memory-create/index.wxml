@@ -1,0 +1,54 @@
+<view class="page memory-create-page safe-bottom">
+  <view class="page-title">添加一段记忆</view>
+  <view class="page-desc">为这张记忆卡补上一段照片或视频，慢慢保存它陪伴你的每一个小瞬间。</view>
+
+  <view wx:if="{{loading}}" class="empty card">正在打开记忆卡...</view>
+  <view wx:elif="{{loadFailed}}" class="empty card">没有找到对应记忆卡，或当前账号不能添加片段。</view>
+  <block wx:else>
+    <view class="form-card card">
+      <view class="field">
+        <text class="form-label">这段记忆的日期</text>
+        <picker mode="date" value="{{form.memory_date}}" bindchange="changeDate">
+          <view class="form-control picker-text">{{form.memory_date || "选择日期"}}</view>
+        </picker>
+      </view>
+
+      <view class="field">
+        <text class="form-label">上传照片或视频</text>
+        <view class="field-help">照片和视频二选一。视频不超过30秒，建议20MB以内。</view>
+        <view wx:if="{{mediaPath && mediaType === 'photo'}}" class="media-box">
+          <image class="photo-preview" src="{{mediaPath}}" mode="aspectFill"></image>
+          <button class="quiet-button remove-media" bindtap="removeMedia">重新选择</button>
+        </view>
+        <view wx:elif="{{mediaPath && mediaType === 'video'}}" class="media-box">
+          <video class="video-preview" src="{{mediaPath}}" controls object-fit="cover"></video>
+          <button class="quiet-button remove-media" bindtap="removeMedia">重新选择</button>
+        </view>
+        <view wx:else class="media-actions">
+          <button class="quiet-button media-button" bindtap="choosePhoto">选择照片</button>
+          <button class="quiet-button media-button" bindtap="chooseVideo">选择视频</button>
+        </view>
+      </view>
+
+      <view class="field">
+        <text class="form-label">一句话标题</text>
+        <input class="form-control" value="{{form.title}}" data-key="title" bindinput="inputText" maxlength="40" placeholder="比如：晒太阳的下午" />
+      </view>
+
+      <view class="field">
+        <text class="form-label">写下这段小记忆</text>
+        <textarea class="form-control textarea" value="{{form.content}}" data-key="content" bindinput="inputText" maxlength="500" placeholder="写下这个瞬间里的温柔细节" />
+      </view>
+
+      <view class="switch-row public-switch-row">
+        <view>
+          <view class="switch-title">申请公开展示</view>
+          <view class="switch-desc">公开前会先进入审核。</view>
+        </view>
+        <switch color="#5B5F97" checked="{{form.visibility === 'pending'}}" bindchange="switchVisibility"></switch>
+      </view>
+    </view>
+
+    <button class="primary-button submit-button" loading="{{submitting}}" bindtap="submitForm">保存这段记忆</button>
+  </block>
+</view>

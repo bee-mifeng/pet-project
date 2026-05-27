@@ -1,11 +1,16 @@
+.doc-page .page-title {
+  color: #5B5F97;
+}
+
 .doc-card {
   margin-top: 28rpx;
   padding: 30rpx;
+  background: #FFFCF7;
 }
 
 .doc-section {
   padding: 26rpx 0;
-  border-bottom: 1rpx solid rgba(47, 75, 56, 0.08);
+  border-bottom: 1rpx solid rgba(91, 95, 151, 0.08);
 }
 
 .doc-section:first-child {
@@ -21,12 +26,12 @@
   font-size: 30rpx;
   font-weight: 700;
   line-height: 1.35;
-  color: #2f4b38;
+  color: #5B5F97;
 }
 
 .doc-p {
   margin-top: 12rpx;
   font-size: 27rpx;
   line-height: 1.78;
-  color: rgba(31, 45, 42, 0.76);
+  color: #2E2E2A;
 }

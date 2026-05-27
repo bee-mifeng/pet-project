@@ -1,6 +1,7 @@
 .detail {
   margin-top: 24rpx;
   overflow: hidden;
+  box-shadow: 0 20rpx 52rpx rgba(175, 166, 219, 0.16);
 }
 
 .hero-photo,
@@ -12,14 +13,14 @@
 
 .video-section {
   padding: 24rpx 30rpx 0;
-  background: #fffdf8;
+  background: #FFFCF7;
 }
 
 .media-title {
   margin-bottom: 16rpx;
   font-size: 26rpx;
   font-weight: 700;
-  color: #2f4b38;
+  color: #5B5F97;
 }
 
 .video-section .hero-video {
@@ -42,13 +43,13 @@
 .pet-name {
   font-size: 42rpx;
   font-weight: 700;
-  color: #2f4b38;
+  color: #5B5F97;
 }
 
 .pet-meta {
   margin-top: 12rpx;
   font-size: 24rpx;
-  color: rgba(31, 45, 42, 0.62);
+  color: rgba(46, 46, 42, 0.62);
 }
 
 .story-block {
@@ -59,14 +60,14 @@
 .panel-title {
   font-size: 28rpx;
   font-weight: 700;
-  color: #2f4b38;
+  color: #5B5F97;
 }
 
 .block-text {
   margin-top: 14rpx;
   font-size: 28rpx;
   line-height: 1.75;
-  color: rgba(31, 45, 42, 0.76);
+  color: rgba(46, 46, 42, 0.76);
 }
 
 .quote {
@@ -75,8 +76,8 @@
   border-radius: 24rpx;
   font-size: 28rpx;
   line-height: 1.7;
-  color: #2f4b38;
-  background: rgba(218, 172, 67, 0.12);
+  color: #B7657C;
+  background: linear-gradient(135deg, rgba(231, 160, 179, 0.12), rgba(214, 171, 79, 0.12));
 }
 
 .interaction-row {
@@ -91,11 +92,21 @@
   line-height: 1.2;
 }
 
+.interaction-like {
+  color: #A67A16;
+  background: rgba(214, 171, 79, 0.14);
+}
+
+.interaction-paw {
+  color: #B56B24;
+  background: rgba(242, 164, 92, 0.14);
+}
+
 .owner-panel {
   margin-top: 28rpx;
   padding: 22rpx;
   border-radius: 24rpx;
-  background: rgba(47, 75, 56, 0.07);
+  background: rgba(214, 171, 79, 0.12);
 }
 
 .owner-status-section {
@@ -115,12 +126,12 @@
 .owner-label {
   font-size: 25rpx;
   font-weight: 700;
-  color: #2f4b38;
+  color: #5B5F97;
 }
 
 .owner-hint {
   font-size: 22rpx;
-  color: rgba(31, 45, 42, 0.5);
+  color: rgba(46, 46, 42, 0.5);
 }
 
 .owner-segmented {
@@ -129,7 +140,7 @@
   gap: 12rpx;
   padding: 8rpx;
   border-radius: 24rpx;
-  background: rgba(255, 253, 248, 0.76);
+  background: rgba(255, 252, 247, 0.76);
 }
 
 .owner-segment {
@@ -140,12 +151,23 @@
   border-radius: 18rpx;
   font-size: 25rpx;
   font-weight: 600;
-  color: rgba(31, 45, 42, 0.64);
+  color: rgba(46, 46, 42, 0.64);
+}
+
+.owner-segment-picker {
+  min-width: 0;
 }
 
 .owner-segment.active {
-  color: #fffdf8;
-  background: #2f4b38;
+  color: #FFFCF7;
+}
+
+.owner-segment-living.active {
+  background: #5B5F97;
+}
+
+.owner-segment-star.active {
+  background: linear-gradient(135deg, #E7A0B3 0%, #D6AB4F 100%);
 }
 
 .owner-date-row {
@@ -153,22 +175,106 @@
   padding: 0 20rpx;
   border-radius: 20rpx;
   font-size: 24rpx;
-  color: #2f4b38;
-  background: rgba(255, 253, 248, 0.86);
+  color: #5B5F97;
+  background: rgba(255, 252, 247, 0.86);
 }
 
 .owner-status {
   font-size: 25rpx;
-  color: #2f4b38;
+  color: #7B746B;
 }
 
 .owner-button {
   margin-top: 16rpx;
 }
 
+.memory-section-title {
+  margin-bottom: 14rpx;
+}
+
+.memory-actions {
+  margin-bottom: 18rpx;
+}
+
+.memory-add-button {
+  width: 100%;
+  margin: 0;
+}
+
+.memory-items {
+  display: grid;
+  gap: 18rpx;
+}
+
+.memory-item {
+  overflow: hidden;
+}
+
+.memory-item-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18rpx;
+  padding: 26rpx 26rpx 18rpx;
+}
+
+.memory-date {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40rpx;
+  padding: 0 14rpx;
+  border-radius: 999rpx;
+  font-size: 23rpx;
+  color: #5B5F97;
+  background: rgba(175, 166, 219, 0.18);
+}
+
+.memory-title {
+  margin-top: 8rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #5B5F97;
+}
+
+.memory-status-private {
+  color: #5B5F97;
+  background: rgba(175, 166, 219, 0.16);
+}
+
+.memory-status-pending {
+  color: #A67A16;
+  background: rgba(214, 171, 79, 0.14);
+}
+
+.memory-status-public {
+  color: #5B5F97;
+  background: rgba(91, 95, 151, 0.12);
+}
+
+.memory-status-rejected {
+  color: #9A4A4A;
+  background: rgba(180, 90, 90, 0.1);
+}
+
+.memory-media {
+  display: block;
+  width: 100%;
+  height: 420rpx;
+  background: #111;
+}
+
+.memory-content {
+  padding: 22rpx 26rpx 28rpx;
+  font-size: 27rpx;
+  line-height: 1.7;
+  color: rgba(46, 46, 42, 0.74);
+}
+
 .message-panel {
   margin-top: 24rpx;
   padding: 30rpx;
+  background: rgba(255, 252, 247, 0.96);
+  border-color: rgba(231, 160, 179, 0.18);
 }
 
 .message-panel .form-control {
@@ -181,6 +287,9 @@
 
 .message-button {
   margin-top: 18rpx;
+  color: #B7657C;
+  background: rgba(231, 160, 179, 0.14);
+  box-shadow: none;
 }
 
 .messages {
@@ -195,12 +304,22 @@
 .message-name {
   font-size: 25rpx;
   font-weight: 700;
-  color: #2f4b38;
+  color: #5B5F97;
+}
+
+.detail-status.status-living {
+  color: #B7657C;
+  background: #FBEAF0;
+}
+
+.detail-status.status-star {
+  color: #A67A16;
+  background: rgba(214, 171, 79, 0.14);
 }
 
 .message-content {
   margin-top: 10rpx;
   font-size: 27rpx;
   line-height: 1.68;
-  color: rgba(31, 45, 42, 0.74);
+  color: rgba(46, 46, 42, 0.74);
 }

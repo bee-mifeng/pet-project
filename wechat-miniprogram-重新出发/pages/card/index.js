@@ -1,11 +1,16 @@
 const cardService = require("../../services/card");
 const messageService = require("../../services/message");
 const interactionService = require("../../services/interaction");
+const memoryItemService = require("../../services/memory-item");
 const mediaService = require("../../services/media");
-const { decorateCard } = require("../../utils/format");
+const { decorateCard, formatDate, visibilityLabel } = require("../../utils/format");
 
-function isValidDateText(text) {
-  return /^\d{4}-\d{2}-\d{2}$/.test(String(text || "").trim());
+function decorateMemoryItem(item) {
+  return {
+    ...item,
+    visibility_label: visibilityLabel(item.visibility),
+    memory_date_label: formatDate(item.memory_date) || "没有写日期"
+  };
 }
 
 Page({
@@ -14,6 +19,7 @@ Page({
     slug: "",
     openid: "",
     card: null,
+    memoryItems: [],
     messages: [],
     loading: true,
     loadFailed: false,
@@ -41,23 +47,25 @@ Page({
       const card = await cardService.getCard({ id: this.data.id, slug: this.data.slug });
 
       if (!card) {
-        this.setData({ card: null, messages: [], loading: false });
+        this.setData({ card: null, memoryItems: [], messages: [], loading: false });
         return;
       }
 
-      const [cardWithMedia, messages] = await Promise.all([
+      const [cardWithMedia, memoryItems, messages] = await Promise.all([
         mediaService.attachMediaUrl(card),
+        memoryItemService.listByMemorial(card._id),
         messageService.listApprovedMessages(card._id)
       ]);
       this.setData({
         openid,
         card: decorateCard(cardWithMedia),
+        memoryItems: (memoryItems || []).map(decorateMemoryItem),
         messages,
         isOwner: !!openid && openid === card.owner_openid,
         loading: false
       });
     } catch (error) {
-      this.setData({ card: null, messages: [], loading: false, loadFailed: true });
+      this.setData({ card: null, memoryItems: [], messages: [], loading: false, loadFailed: true });
       wx.showToast({ title: "加载失败，请稍后再试", icon: "none" });
     }
   },
@@ -69,7 +77,7 @@ Page({
     try {
       await cardService.applyPublic(this.data.card._id);
       wx.hideLoading();
-      wx.showToast({ title: "申请已提交", icon: "success" });
+      wx.showToast({ title: "申请已提交", icon: "none" });
       this.loadCard();
     } catch (error) {
       wx.hideLoading();
@@ -87,7 +95,7 @@ Page({
         ? "取消后，这张记忆卡将不再出现在记忆花园，但私密链接仍可打开。"
         : "撤回后，这张记忆卡会回到私密状态，不再进入审核列表。",
       confirmText: isPublic ? "取消公开" : "撤回申请",
-      confirmColor: "#8D5D54",
+      confirmColor: "#5B5F97",
       success: async (res) => {
         if (!res.confirm) return;
 
@@ -95,7 +103,7 @@ Page({
         try {
           await cardService.makePrivate(this.data.card._id);
           wx.hideLoading();
-          wx.showToast({ title: "已改为私密", icon: "success" });
+          wx.showToast({ title: "已改为私密", icon: "none" });
           this.loadCard();
         } catch (error) {
           wx.hideLoading();
@@ -115,7 +123,7 @@ Page({
         title: "改为陪伴中",
         content: "确认后会清空“去星星上的日子”。",
         confirmText: "确认修改",
-        confirmColor: "#2F4B38",
+        confirmColor: "#5B5F97",
         success: (res) => {
           if (!res.confirm) return;
           this.updatePetStatus("living", "");
@@ -124,22 +132,7 @@ Page({
       return;
     }
 
-    wx.showModal({
-      title: "去星星上的日子",
-      editable: true,
-      placeholderText: "请输入日期，如 2026-05-25",
-      confirmText: "保存",
-      confirmColor: "#2F4B38",
-      success: (res) => {
-        if (!res.confirm) return;
-        const starDate = String(res.content || "").trim();
-        if (!isValidDateText(starDate)) {
-          wx.showToast({ title: "请按 YYYY-MM-DD 填写日期", icon: "none" });
-          return;
-        }
-        this.updatePetStatus("star", starDate);
-      }
-    });
+    wx.showToast({ title: "请选择去星星上的日子", icon: "none" });
   },
 
   changeOwnerStarDate(event) {
@@ -154,12 +147,17 @@ Page({
     try {
       await cardService.updatePetStatus(this.data.card._id, status, starDate);
       wx.hideLoading();
-      wx.showToast({ title: "状态已更新", icon: "success" });
+      wx.showToast({ title: "状态已更新", icon: "none" });
       this.loadCard();
     } catch (error) {
       wx.hideLoading();
       wx.showToast({ title: "更新失败，请稍后再试", icon: "none" });
     }
+  },
+
+  goCreateMemoryItem() {
+    if (!this.data.card) return;
+    wx.navigateTo({ url: `/pages/memory-create/index?memorial_id=${this.data.card._id}` });
   },
 
   async interact(event) {
@@ -180,7 +178,7 @@ Page({
         wx.showToast({ title: "你已经留下过心意了", icon: "none" });
         return;
       }
-      wx.showToast({ title: "已记录", icon: "success" });
+      wx.showToast({ title: "已记录", icon: "none" });
       this.loadCard();
     } catch (error) {
       wx.showToast({ title: "操作失败，请稍后再试", icon: "none" });

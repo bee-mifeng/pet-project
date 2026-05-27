@@ -42,7 +42,7 @@ config/env.js
 字段：
 
 ```js
-const ADMIN_OPENIDS = ["o-GIl3auJGArAyOt-pbA5x_pu4Kg"];
+const ADMIN_OPENIDS = ["o-GlI3auJGArAyOt-pbA5x_pu4Kg"];
 const DEV_FORCE_ADMIN = false;
 ```
 
@@ -50,11 +50,12 @@ const DEV_FORCE_ADMIN = false;
 
 ## 需要手动创建的数据库集合
 
-继续使用同一个云环境中的三个集合：
+继续使用同一个云环境中的四个集合：
 
 - `memorials`
 - `messages`
 - `interactions`
+- `memory_items`
 
 新小程序只使用新字段语义，避免影响旧验证项目。
 
@@ -111,6 +112,26 @@ const DEV_FORCE_ADMIN = false;
 - `user_key`
 - `created_at`
 
+### memory_items
+
+保存一张记忆卡下面的多段记忆片段。
+
+核心字段：
+
+- `memorial_id`
+- `owner_openid`
+- `owner_key`
+- `item_type`: `photo | video`
+- `media_url`
+- `media_file_id`
+- `cover_url`
+- `title`
+- `content`
+- `memory_date`
+- `visibility`: `private | pending | public | rejected`
+- `created_at`
+- `updated_at`
+
 ## 需要部署的云函数
 
 需要部署：
@@ -118,17 +139,21 @@ const DEV_FORCE_ADMIN = false;
 ```text
 cloudfunctions/login
 cloudfunctions/mediaUrls
+cloudfunctions/memorialApi
+cloudfunctions/adminReview
 ```
 
 用途：
 
 - `login`：获取当前微信用户的 openid。
 - `mediaUrls`：把云存储 fileID 换成临时访问链接，兼容免费环境下存储不能公开读取的限制。
+- `memorialApi`：服务端读取公开记忆卡、执行管理员审核、留言审核和互动计数，避免普通用户只能读写自己数据导致的跨手机不可见问题。
+- `adminReview`：服务端校验管理员 openid，并审核记忆片段。
 
 部署方式：
 
 1. 在微信开发者工具中打开云开发。
-2. 分别右键 `cloudfunctions/login` 和 `cloudfunctions/mediaUrls`。
+2. 分别右键 `cloudfunctions/login`、`cloudfunctions/mediaUrls`、`cloudfunctions/memorialApi` 和 `cloudfunctions/adminReview`。
 3. 选择“上传并部署：云端安装依赖”。
 
 ## 云存储
@@ -145,6 +170,13 @@ pet-photos/{openid或userKey}/{filename}
 pet-videos/{openid或userKey}/{filename}
 ```
 
+记忆片段上传到云存储路径：
+
+```text
+memory-items/{openid或userKey}/photos/{filename}
+memory-items/{openid或userKey}/videos/{filename}
+```
+
 上传限制：
 
 - 图片不超过 2MB。
@@ -157,6 +189,7 @@ pet-videos/{openid或userKey}/{filename}
 
 - `pages/index/index`：首页
 - `pages/create/index`：创建毛孩子记忆卡
+- `pages/memory-create/index`：添加一段记忆片段
 - `pages/card/index`：记忆卡详情
 - `pages/garden/index`：记忆花园
 - `pages/mine/index`：我的记忆卡
@@ -183,8 +216,10 @@ pet-videos/{openid或userKey}/{filename}
 5. 申请公开：在详情页点击“申请进入记忆花园”，状态变为“审核中”。
 6. 审核：在微信开发者工具中编译路径设置为 `pages/admin/index`，白名单账号进入后可通过或拒绝记忆卡。
 7. 记忆花园：审核通过后，进入“记忆花园”，应能看到公开的记忆卡。
-8. 详情页：点击“查看记忆卡”，测试视频播放、喜欢或献花、点亮小爪印。
-9. 留言：提交留言后先不公开，进入后台审核留言，通过后回到详情页查看。
+8. 记忆片段：进入自己的详情页，点击“添加一段记忆”，保存私密片段后应只给主人可见。
+9. 片段审核：添加片段时打开“申请公开展示”，进入后台“片段”审核，通过后，其他手机打开公开详情页可见。
+10. 详情页：点击“查看记忆卡”，测试视频播放、喜欢、点亮小爪印。
+11. 留言：提交留言后先不公开，进入后台审核留言，通过后回到详情页查看。
 
 ## 第一版不包含
 

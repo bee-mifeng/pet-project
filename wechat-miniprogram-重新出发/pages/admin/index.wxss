@@ -2,24 +2,30 @@
   margin-top: 28rpx;
   padding: 24rpx;
   font-size: 25rpx;
-  color: #2f4b38;
+  color: #A67A16;
+  background: rgba(214, 171, 79, 0.14);
+}
+
+.admin-page .page-title,
+.admin-page .section-title {
+  color: #5B5F97;
 }
 
 .admin-openid {
   margin-top: 10rpx;
   word-break: break-all;
   font-size: 22rpx;
-  color: rgba(31, 45, 42, 0.62);
+  color: rgba(46, 46, 42, 0.62);
 }
 
 .tabs {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 14rpx;
   margin: 28rpx 0 22rpx;
   padding: 8rpx;
   border-radius: 28rpx;
-  background: rgba(47, 75, 56, 0.08);
+  background: rgba(175, 166, 219, 0.14);
 }
 
 .tab {
@@ -32,12 +38,12 @@
   text-align: center;
   font-size: 26rpx;
   line-height: 1.2;
-  color: rgba(31, 45, 42, 0.64);
+  color: rgba(46, 46, 42, 0.64);
 }
 
 .tab.active {
-  color: #fffdf8;
-  background: #2f4b38;
+  color: #FFFCF7;
+  background: #5B5F97;
 }
 
 .review-list {
@@ -45,7 +51,8 @@
   gap: 18rpx;
 }
 
-.review-card {
+.review-card,
+.memory-item-review {
   overflow: hidden;
 }
 
@@ -58,14 +65,14 @@
 
 .review-video-wrap {
   padding: 22rpx 26rpx 0;
-  background: #fffdf8;
+  background: #FFFCF7;
 }
 
 .review-media-title {
   margin-bottom: 14rpx;
   font-size: 24rpx;
   font-weight: 700;
-  color: #2f4b38;
+  color: #F2A45C;
 }
 
 .review-video-wrap .review-video {
@@ -82,14 +89,14 @@
 .review-title {
   font-size: 32rpx;
   font-weight: 700;
-  color: #2f4b38;
+  color: #5B5F97;
 }
 
 .review-meta,
 .message-card-id {
   margin-top: 10rpx;
   font-size: 23rpx;
-  color: rgba(31, 45, 42, 0.58);
+  color: rgba(46, 46, 42, 0.58);
 }
 
 .review-text,
@@ -97,13 +104,13 @@
   margin-top: 16rpx;
   font-size: 27rpx;
   line-height: 1.68;
-  color: rgba(31, 45, 42, 0.74);
+  color: rgba(46, 46, 42, 0.74);
 }
 
 .message-name {
   font-size: 26rpx;
   font-weight: 700;
-  color: #2f4b38;
+  color: #5B5F97;
 }
 
 .review-actions {
@@ -119,4 +126,9 @@
   margin: 0;
   font-size: 26rpx;
   line-height: 1.2;
+}
+
+.admin-page .primary-button.action-button {
+  background: #5B5F97;
+  box-shadow: none;
 }

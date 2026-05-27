@@ -1,15 +1,16 @@
 const cardService = require("../../services/card");
 const messageService = require("../../services/message");
 const mediaService = require("../../services/media");
-const { decorateCard } = require("../../utils/format");
+const memoryItemService = require("../../services/memory-item");
+const { decorateCard, formatDate } = require("../../utils/format");
+const { isAdminOpenId, normalizeOpenId } = require("../../config/admin");
 
-const ADMIN_OPENIDS = [
-  "o-GlI3auJGArAyOt-pbA5x_pu4Kg",
-  "o-GII3auJGArAyOt-pbA5x_pu4Kg",
-  "o-GI13auJGArAyOt-pbA5x_pu4Kg",
-  "o-GIl3auJGArAyOt-pbA5x_pu4Kg"
-];
-const DEV_FORCE_ADMIN = false;
+function decorateMemoryItem(item) {
+  return {
+    ...item,
+    memory_date_label: formatDate(item.memory_date) || "没有写日期"
+  };
+}
 
 Page({
   data: {
@@ -18,6 +19,7 @@ Page({
     authChecked: false,
     activeTab: "cards",
     pendingCards: [],
+    pendingMemoryItems: [],
     pendingMessages: [],
     loading: false
   },
@@ -32,14 +34,8 @@ Page({
     try {
       const app = getApp();
       const openid = await app.getOpenId();
-      const currentOpenId = String(openid || "").trim();
-      const isAdmin =
-        DEV_FORCE_ADMIN ||
-        ADMIN_OPENIDS.map(id => String(id).trim()).includes(currentOpenId);
-
-      console.log("当前 openid:", currentOpenId);
-      console.log("管理员列表:", ADMIN_OPENIDS);
-      console.log("是否管理员:", isAdmin);
+      const currentOpenId = normalizeOpenId(openid);
+      const isAdmin = isAdminOpenId(currentOpenId);
 
       this.setData({
         openid: currentOpenId,
@@ -49,6 +45,7 @@ Page({
 
       if (isAdmin) this.loadAll();
     } catch (error) {
+      console.error("管理员身份校验失败", error);
       this.setData({ openid: "", isAdmin: false, authChecked: true });
       wx.showToast({ title: "身份校验失败", icon: "none" });
     }
@@ -63,30 +60,34 @@ Page({
 
     this.setData({ loading: true });
     try {
-      const [cards, messages] = await Promise.all([
+      const [cards, memoryItems, messages] = await Promise.all([
         cardService.listPendingCards(),
+        memoryItemService.listPending(),
         messageService.listPendingMessages()
       ]);
-      const cardsWithMedia = await mediaService.attachMediaUrls(cards);
+      const cardsWithMedia = await mediaService.attachMediaUrls(cards || []);
 
       this.setData({
         pendingCards: cardsWithMedia.map(decorateCard),
+        pendingMemoryItems: (memoryItems || []).map(decorateMemoryItem),
         pendingMessages: messages || [],
         loading: false
       });
     } catch (error) {
-      this.setData({ pendingCards: [], pendingMessages: [], loading: false });
+      this.setData({ pendingCards: [], pendingMemoryItems: [], pendingMessages: [], loading: false });
       wx.showToast({ title: "加载失败，请稍后再试", icon: "none" });
     }
   },
 
   async reviewCard(event) {
+    if (!this.data.isAdmin) return;
+
     const id = event.currentTarget.dataset.id;
     const approved = event.currentTarget.dataset.approved === "true";
 
     try {
       await cardService.reviewCard(id, approved);
-      wx.showToast({ title: approved ? "已通过" : "已拒绝", icon: "success" });
+      wx.showToast({ title: approved ? "已通过" : "已拒绝", icon: "none" });
       this.loadAll();
     } catch (error) {
       wx.showToast({ title: "操作失败，请稍后再试", icon: "none" });
@@ -94,12 +95,29 @@ Page({
   },
 
   async reviewMessage(event) {
+    if (!this.data.isAdmin) return;
+
     const id = event.currentTarget.dataset.id;
     const approved = event.currentTarget.dataset.approved === "true";
 
     try {
       await messageService.reviewMessage(id, approved);
-      wx.showToast({ title: approved ? "已通过" : "已拒绝", icon: "success" });
+      wx.showToast({ title: approved ? "已通过" : "已拒绝", icon: "none" });
+      this.loadAll();
+    } catch (error) {
+      wx.showToast({ title: "操作失败，请稍后再试", icon: "none" });
+    }
+  },
+
+  async reviewMemoryItem(event) {
+    if (!this.data.isAdmin) return;
+
+    const id = event.currentTarget.dataset.id;
+    const approved = event.currentTarget.dataset.approved === "true";
+
+    try {
+      await memoryItemService.reviewMemoryItem(id, approved);
+      wx.showToast({ title: approved ? "已通过" : "已拒绝", icon: "none" });
       this.loadAll();
     } catch (error) {
       wx.showToast({ title: "操作失败，请稍后再试", icon: "none" });
@@ -107,6 +125,8 @@ Page({
   },
 
   openCard(event) {
+    if (!this.data.isAdmin) return;
+
     const id = event.currentTarget.dataset.id;
     wx.navigateTo({ url: `/pages/card/index?id=${id}` });
   }

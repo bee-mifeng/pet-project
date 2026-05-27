@@ -17,7 +17,7 @@
             <view class="pet-name">{{card.pet_name}}</view>
             <view class="pet-meta">{{card.pet_type_label}} · {{card.timeline}}</view>
           </view>
-          <view class="badge">{{card.pet_status_label}}</view>
+          <view class="badge detail-status status-{{card.pet_status_class}}">{{card.pet_status_label}}</view>
         </view>
 
         <view class="story-block">
@@ -31,8 +31,8 @@
         </view>
 
         <view class="interaction-row">
-          <button class="ghost-button small-button" data-type="{{card.primary_interaction_type}}" bindtap="interact">{{card.primary_interaction_label}} {{card.primary_interaction_count}}</button>
-          <button class="ghost-button small-button" data-type="paw_light" bindtap="interact">点亮小爪印 {{card.paw_lights_count || 0}}</button>
+          <button class="ghost-button small-button interaction-like" data-type="{{card.primary_interaction_type}}" bindtap="interact">{{card.primary_interaction_label}} {{card.primary_interaction_count}}</button>
+          <button class="ghost-button small-button interaction-paw" data-type="paw_light" bindtap="interact">点亮小爪印 {{card.paw_lights_count || 0}}</button>
         </view>
 
         <view wx:if="{{isOwner}}" class="owner-panel">
@@ -43,15 +43,13 @@
             </view>
             <view class="owner-segmented">
               <view
-                class="owner-segment {{card.pet_status === 'living' ? 'active' : ''}}"
+                class="owner-segment owner-segment-living {{card.pet_status === 'living' ? 'active' : ''}}"
                 data-status="living"
                 bindtap="changeOwnerPetStatus"
               >陪伴中</view>
-              <view
-                class="owner-segment {{card.pet_status === 'star' ? 'active' : ''}}"
-                data-status="star"
-                bindtap="changeOwnerPetStatus"
-              >在星星上</view>
+              <picker class="owner-segment-picker" mode="date" value="{{card.star_date}}" bindchange="changeOwnerStarDate">
+                <view class="owner-segment owner-segment-star {{card.pet_status === 'star' ? 'active' : ''}}">在星星上</view>
+              </picker>
             </view>
             <picker wx:if="{{card.pet_status === 'star'}}" mode="date" value="{{card.star_date}}" bindchange="changeOwnerStarDate">
               <view class="owner-date-row">
@@ -65,6 +63,26 @@
           <button wx:if="{{card.visibility === 'public'}}" class="danger-button owner-button" bindtap="makePrivate">取消公开展示</button>
           <button wx:if="{{card.visibility === 'pending'}}" class="quiet-button owner-button" bindtap="makePrivate">撤回公开申请</button>
         </view>
+      </view>
+    </view>
+
+    <view class="section-title memory-section-title">它的记忆片段</view>
+    <view class="memory-actions">
+      <button wx:if="{{isOwner}}" class="primary-button memory-add-button" bindtap="goCreateMemoryItem">添加一段记忆</button>
+    </view>
+    <view wx:if="{{memoryItems.length === 0}}" class="empty card">还没有记录片段。可以慢慢补上它陪伴你的每一个小瞬间。</view>
+    <view wx:else class="memory-items">
+      <view wx:for="{{memoryItems}}" wx:key="_id" class="memory-item card">
+        <view class="memory-item-top">
+          <view>
+            <view class="memory-date">{{item.memory_date_label}}</view>
+            <view class="memory-title">{{item.title}}</view>
+          </view>
+          <view wx:if="{{isOwner}}" class="badge memory-status memory-status-{{item.visibility}}">{{item.visibility_label}}</view>
+        </view>
+        <image wx:if="{{item.item_type === 'photo'}}" class="memory-media" src="{{item.media_src}}" mode="aspectFill"></image>
+        <video wx:elif="{{item.item_type === 'video'}}" class="memory-media" src="{{item.media_src}}" poster="{{item.cover_src}}" controls object-fit="contain"></video>
+        <view wx:if="{{item.content}}" class="memory-content">{{item.content}}</view>
       </view>
     </view>
 

@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/create/index",
+    "pages/memory-create/index",
     "pages/card/index",
     "pages/garden/index",
     "pages/mine/index",
@@ -12,14 +13,14 @@
   ],
   "window": {
     "navigationBarTitleText": "PawsMeadow",
-    "navigationBarBackgroundColor": "#FBF7EE",
+    "navigationBarBackgroundColor": "#F6F1E8",
     "navigationBarTextStyle": "black",
-    "backgroundColor": "#FBF7EE",
+    "backgroundColor": "#FBF8F1",
     "backgroundTextStyle": "dark"
   },
   "tabBar": {
-    "color": "#7D8A7A",
-    "selectedColor": "#36543A",
+    "color": "#9A938B",
+    "selectedColor": "#5B5F97",
     "backgroundColor": "#FBF8F1",
     "borderStyle": "white",
     "list": [

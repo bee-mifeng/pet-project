@@ -189,7 +189,7 @@ Page({
       });
 
       wx.hideLoading();
-      wx.showToast({ title: "已保存", icon: "success" });
+      wx.showToast({ title: "已保存", icon: "none" });
       wx.navigateTo({ url: `/pages/card/index?id=${created._id}` });
     } catch (error) {
       wx.hideLoading();

@@ -1,7 +1,12 @@
+/* PawsMeadow brand palette
+ * pm-purple: #5B5F97; pm-lavender: #AFA6DB; pm-pink: #E7A0B3;
+ * pm-orange: #F2A45C; pm-gold: #D6AB4F; pm-cream: #F6F1E8;
+ * pm-ink: #2E2E2A; pm-muted: #7B746B; pm-card: #FFFCF7;
+ */
 page {
   min-height: 100%;
-  background: #fbf7ee;
-  color: #1f2d2a;
+  background: #F6F1E8;
+  color: #2E2E2A;
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 
@@ -10,31 +15,31 @@ page {
   box-sizing: border-box;
   padding: 32rpx;
   background:
-    radial-gradient(circle at 12% 0%, rgba(218, 172, 67, 0.13), transparent 360rpx),
-    radial-gradient(circle at 100% 16%, rgba(122, 136, 118, 0.15), transparent 420rpx),
-    #fbf7ee;
+    radial-gradient(circle at 12% 0%, rgba(231, 160, 179, 0.12), transparent 360rpx),
+    radial-gradient(circle at 100% 16%, rgba(175, 166, 219, 0.12), transparent 420rpx),
+    linear-gradient(180deg, #FDF8F1 0%, #F6F1E8 100%);
 }
 
 .page-title {
   font-size: 48rpx;
   line-height: 1.2;
   font-weight: 700;
-  color: #2f4b38;
+  color: #5B5F97;
 }
 
 .page-desc {
   margin-top: 18rpx;
   font-size: 28rpx;
   line-height: 1.72;
-  color: rgba(31, 45, 42, 0.72);
+  color: #7B746B;
 }
 
 .card {
   box-sizing: border-box;
-  border: 1rpx solid rgba(47, 75, 56, 0.1);
+  border: 1rpx solid #E8DCCB;
   border-radius: 32rpx;
-  background: rgba(255, 253, 248, 0.94);
-  box-shadow: 0 18rpx 48rpx rgba(31, 45, 42, 0.07);
+  background: #FFFCF7;
+  box-shadow: 0 18rpx 48rpx rgba(175, 166, 219, 0.14);
 }
 
 .primary-button,
@@ -55,24 +60,26 @@ page {
 }
 
 .primary-button {
-  color: #fffdf8;
-  background: #2f4b38;
+  color: #FFFCF7;
+  background: linear-gradient(135deg, #5B5F97 0%, #E7A0B3 55%, #F2A45C 100%);
+  box-shadow: 0 18rpx 34rpx rgba(91, 95, 151, 0.18);
 }
 
 .ghost-button {
-  color: #2f4b38;
-  background: rgba(47, 75, 56, 0.1);
+  color: #5B5F97;
+  background: #FFFCF7;
+  border: 1rpx solid #AFA6DB;
 }
 
 .quiet-button {
-  color: #2f4b38;
-  background: #fffdf8;
-  border: 1rpx solid rgba(47, 75, 56, 0.12);
+  color: #5B5F97;
+  background: #FFFCF7;
+  border: 1rpx solid #AFA6DB;
 }
 
 .danger-button {
-  color: #8d5d54;
-  background: rgba(141, 93, 84, 0.1);
+  color: #FFFCF7;
+  background: #9A4A4A;
 }
 
 .primary-button::after,
@@ -91,19 +98,19 @@ page {
   padding: 0 18rpx;
   border-radius: 999rpx;
   font-size: 22rpx;
-  color: #2f4b38;
-  background: rgba(122, 136, 118, 0.16);
+  color: #5B5F97;
+  background: rgba(175, 166, 219, 0.16);
 }
 
 .muted {
-  color: rgba(31, 45, 42, 0.62);
+  color: #7B746B;
 }
 
 .section-title {
   margin: 48rpx 0 18rpx;
   font-size: 32rpx;
   font-weight: 700;
-  color: #2f4b38;
+  color: #5B5F97;
 }
 
 .empty {
@@ -111,7 +118,11 @@ page {
   text-align: center;
   font-size: 26rpx;
   line-height: 1.7;
-  color: rgba(31, 45, 42, 0.62);
+  color: #7B746B;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(175, 166, 219, 0.18), transparent 180rpx),
+    linear-gradient(135deg, rgba(231, 160, 179, 0.1), rgba(242, 164, 92, 0.08)),
+    #FFFCF7;
 }
 
 .form-label {
@@ -119,7 +130,7 @@ page {
   margin-bottom: 14rpx;
   font-size: 26rpx;
   font-weight: 600;
-  color: #2f4b38;
+  color: #5B5F97;
 }
 
 .form-control {
@@ -127,11 +138,15 @@ page {
   width: 100%;
   min-height: 88rpx;
   padding: 22rpx 26rpx;
-  border: 1rpx solid rgba(47, 75, 56, 0.14);
+  border: 1rpx solid #E8DCCB;
   border-radius: 24rpx;
-  background: #fffaf1;
+  background: #FBF8F1;
   font-size: 28rpx;
-  color: #1f2d2a;
+  color: #2E2E2A;
+}
+
+.form-control:focus {
+  border-color: #AFA6DB;
 }
 
 .textarea {

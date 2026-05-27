@@ -2,6 +2,10 @@
   padding: 18rpx 0 12rpx;
 }
 
+.hero .page-title {
+  color: #5B5F97;
+}
+
 .logo {
   width: 132rpx;
   height: 132rpx;
@@ -15,6 +19,17 @@
   margin-top: 34rpx;
 }
 
+.hero-actions .primary-button {
+  background: linear-gradient(135deg, #5B5F97 0%, #E7A0B3 55%, #F2A45C 100%);
+  box-shadow: 0 18rpx 34rpx rgba(91, 95, 151, 0.18);
+}
+
+.hero-actions .ghost-button {
+  color: #5B5F97;
+  background: #FFFCF7;
+  border-color: #AFA6DB;
+}
+
 .trust {
   display: flex;
   align-items: center;
@@ -25,8 +40,8 @@
   border-radius: 22rpx;
   font-size: 24rpx;
   line-height: 1.45;
-  color: #2f4b38;
-  background: rgba(122, 136, 118, 0.16);
+  color: #7B746B;
+  background: linear-gradient(135deg, rgba(175, 166, 219, 0.16), rgba(231, 160, 179, 0.14), rgba(242, 164, 92, 0.12));
 }
 
 .feature-list {
@@ -37,12 +52,25 @@
 .feature-card,
 .note-card {
   padding: 28rpx;
+  border-top: 6rpx solid #E7A0B3;
+}
+
+.feature-card:nth-child(3n + 1) {
+  border-top-color: #AFA6DB;
+}
+
+.feature-card:nth-child(3n + 2) {
+  border-top-color: #E7A0B3;
+}
+
+.feature-card:nth-child(3n) {
+  border-top-color: #F2A45C;
 }
 
 .feature-title {
   font-size: 30rpx;
   font-weight: 700;
-  color: #2f4b38;
+  color: #5B5F97;
 }
 
 .feature-desc,
@@ -50,7 +78,7 @@
   margin-top: 12rpx;
   font-size: 26rpx;
   line-height: 1.7;
-  color: rgba(31, 45, 42, 0.7);
+  color: rgba(46, 46, 42, 0.7);
 }
 
 .sample-card {
@@ -77,20 +105,20 @@
 .sample-name {
   font-size: 36rpx;
   font-weight: 700;
-  color: #2f4b38;
+  color: #5B5F97;
 }
 
 .sample-meta {
   margin-top: 12rpx;
   font-size: 24rpx;
-  color: rgba(31, 45, 42, 0.62);
+  color: rgba(46, 46, 42, 0.62);
 }
 
 .sample-story {
   margin-top: 18rpx;
   font-size: 27rpx;
   line-height: 1.7;
-  color: rgba(31, 45, 42, 0.74);
+  color: rgba(46, 46, 42, 0.74);
 }
 
 .policy-links {
@@ -98,5 +126,5 @@
   flex-wrap: wrap;
   gap: 18rpx;
   margin-top: 20rpx;
-  color: #9b6f2f;
+  color: #D6AB4F;
 }

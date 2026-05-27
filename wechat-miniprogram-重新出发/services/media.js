@@ -27,26 +27,26 @@ async function getTempUrlMap(fileIDs) {
   if (uniqueFileIDs.length === 0) return {};
 
   try {
-    const result = await callGetTempFileURL(uniqueFileIDs);
-    const list = result && Array.isArray(result.fileList)
-      ? result.fileList
-      : [];
-
-    return list.reduce((map, item) => {
-      if (item.fileID && item.tempFileURL) {
-        map[item.fileID] = item.tempFileURL;
-      }
-      return map;
-    }, {});
-  } catch (error) {
-    try {
-      const result = await wx.cloud.callFunction({
-        name: "mediaUrls",
-        data: { fileList: uniqueFileIDs }
-      });
-      const list = result && result.result && Array.isArray(result.result.fileList)
+    const result = await wx.cloud.callFunction({
+      name: "mediaUrls",
+      data: { fileList: uniqueFileIDs }
+    });
+    const list = result && result.result && Array.isArray(result.result.fileList)
       ? result.result.fileList
       : [];
+
+    const urlMap = list.reduce((map, item) => {
+      if (item.fileID && item.tempFileURL) map[item.fileID] = item.tempFileURL;
+      return map;
+    }, {});
+
+    if (Object.keys(urlMap).length > 0) return urlMap;
+  } catch (error) {
+    try {
+      const result = await callGetTempFileURL(uniqueFileIDs);
+      const list = result && Array.isArray(result.fileList)
+        ? result.fileList
+        : [];
 
       return list.reduce((map, item) => {
         if (item.fileID && item.tempFileURL) {
@@ -57,8 +57,9 @@ async function getTempUrlMap(fileIDs) {
     } catch (fallbackError) {
       console.error("获取媒体临时链接失败", fallbackError);
     }
-    return {};
   }
+
+  return {};
 }
 
 async function getVideoSrc(videoUrl, urlMap) {
@@ -88,8 +89,8 @@ async function attachMediaUrls(cards) {
 
   return Promise.all(list.map(async (card) => ({
     ...card,
-    photo_src: urlMap[card.photo_url] || card.photo_url || "",
-    video_src: await getVideoSrc(card.video_url, urlMap)
+    photo_src: card.photo_src || urlMap[card.photo_url] || card.photo_url || "",
+    video_src: card.video_src || await getVideoSrc(card.video_url, urlMap)
   })));
 }
 

@@ -41,11 +41,11 @@ function visibilityLabel(visibility) {
 }
 
 function primaryInteractionType(status) {
-  return normalizePetStatus(status) === "star" ? "flower" : "like";
+  return "like";
 }
 
 function primaryInteractionLabel(status) {
-  return normalizePetStatus(status) === "star" ? "献花" : "喜欢";
+  return "喜欢";
 }
 
 function messageActionLabel(status) {
@@ -74,14 +74,18 @@ function brief(text, length) {
 
 function decorateCard(card) {
   const primaryType = primaryInteractionType(card.pet_status);
+  const visibility = normalizeVisibility(card.visibility);
+  const petStatus = normalizePetStatus(card.pet_status);
   return {
     ...card,
     pet_type_label: petTypeLabel(card.pet_type),
-    pet_status_label: petStatusLabel(card.pet_status),
-    visibility_label: visibilityLabel(card.visibility),
+    pet_status_label: petStatusLabel(petStatus),
+    pet_status_class: petStatus,
+    visibility_label: visibilityLabel(visibility),
+    visibility_class: visibility,
     primary_interaction_type: primaryType,
     primary_interaction_label: primaryInteractionLabel(card.pet_status),
-    primary_interaction_count: primaryType === "flower" ? card.flower_count || 0 : card.like_count || 0,
+    primary_interaction_count: card.like_count || 0,
     message_action_label: messageActionLabel(card.pet_status),
     timeline: timeLine(card),
     brief_story: brief(card.story, 54)

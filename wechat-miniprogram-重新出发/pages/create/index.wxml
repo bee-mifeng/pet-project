@@ -18,8 +18,8 @@
     <view class="field">
       <text class="form-label">当前状态</text>
       <view class="segmented">
-        <view class="segment {{form.pet_status === 'living' ? 'active' : ''}}" data-status="living" bindtap="changePetStatus">陪伴中</view>
-        <view class="segment {{form.pet_status === 'star' ? 'active' : ''}}" data-status="star" bindtap="changePetStatus">在星星上</view>
+        <view class="segment segment-living {{form.pet_status === 'living' ? 'active' : ''}}" data-status="living" bindtap="changePetStatus">陪伴中</view>
+        <view class="segment segment-star {{form.pet_status === 'star' ? 'active' : ''}}" data-status="star" bindtap="changePetStatus">在星星上</view>
       </view>
     </view>
 
@@ -66,12 +66,12 @@
       <textarea class="form-control textarea short-textarea" value="{{form.message}}" data-key="message" bindinput="inputText" maxlength="160" placeholder="比如：谢谢你一直陪着我" />
     </view>
 
-    <view class="switch-row">
+    <view class="switch-row public-switch-row">
       <view>
         <view class="switch-title">申请公开到记忆花园</view>
         <view class="switch-desc">公开前会先进入审核。</view>
       </view>
-      <switch color="#2F4B38" checked="{{form.visibility === 'pending'}}" bindchange="switchVisibility"></switch>
+      <switch color="#5B5F97" checked="{{form.visibility === 'pending'}}" bindchange="switchVisibility"></switch>
     </view>
 
     <view class="switch-row">
@@ -79,7 +79,7 @@
         <view class="switch-title">允许留言祝福</view>
         <view class="switch-desc">留言审核后才会展示。</view>
       </view>
-      <switch color="#2F4B38" checked="{{form.allow_messages}}" data-key="allow_messages" bindchange="switchChange"></switch>
+      <switch color="#5B5F97" checked="{{form.allow_messages}}" data-key="allow_messages" bindchange="switchChange"></switch>
     </view>
   </view>
 

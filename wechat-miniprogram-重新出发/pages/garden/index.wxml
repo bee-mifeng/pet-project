@@ -46,13 +46,15 @@
       <view class="card-body">
         <view class="card-top">
           <view class="card-name">{{item.pet_name}}</view>
-          <view class="badge">{{item.pet_status_label}}</view>
+          <view class="badge status-badge status-{{item.pet_status}}">{{item.pet_status_label}}</view>
         </view>
-        <view class="card-meta">{{item.pet_type_label}} · {{item.timeline}}</view>
+        <view class="card-meta">
+          <text class="pet-type-chip pet-type-{{item.pet_type}}">{{item.pet_type_label}}</text>
+          <text> · {{item.timeline}}</text>
+        </view>
         <view class="card-story">{{item.brief_story}}</view>
         <view class="card-stats">
           <text>喜欢 {{item.like_count || 0}}</text>
-          <text>献花 {{item.flower_count || 0}}</text>
           <text>爪印 {{item.paw_lights_count || 0}}</text>
         </view>
         <button class="quiet-button card-button" data-id="{{item._id}}" bindtap="openCard">查看记忆卡</button>
