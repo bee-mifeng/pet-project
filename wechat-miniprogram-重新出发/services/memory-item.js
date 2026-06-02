@@ -1,18 +1,3 @@
-const db = wx.cloud.database();
-const memoryItems = db.collection("memory_items");
-
-function now() {
-  return new Date();
-}
-
-function normalizeVisibility(visibility) {
-  return ["private", "pending", "public", "rejected"].includes(visibility) ? visibility : "private";
-}
-
-function normalizeItemType(type) {
-  return type === "video" ? "video" : "photo";
-}
-
 async function callMemorialApi(action, data) {
   const result = await wx.cloud.callFunction({
     name: "memorialApi",
@@ -35,29 +20,8 @@ async function callAdminReview(action, data) {
 }
 
 async function createMemoryItem(input) {
-  const createdAt = now();
-  const data = {
-    memorial_id: input.memorial_id || "",
-    owner_openid: input.owner_openid || "",
-    owner_key: input.owner_key || "",
-    item_type: normalizeItemType(input.item_type),
-    media_url: input.media_url || "",
-    media_file_id: input.media_file_id || input.media_url || "",
-    cover_url: input.cover_url || "",
-    title: String(input.title || "").trim(),
-    content: String(input.content || "").trim(),
-    memory_date: input.memory_date || "",
-    visibility: normalizeVisibility(input.visibility),
-    created_at: createdAt,
-    updated_at: createdAt
-  };
-
   try {
-    const result = await memoryItems.add({ data });
-    return {
-      _id: result._id,
-      ...data
-    };
+    return await callMemorialApi("createMemoryItem", input);
   } catch (error) {
     console.error("创建记忆片段失败", error);
     throw error;

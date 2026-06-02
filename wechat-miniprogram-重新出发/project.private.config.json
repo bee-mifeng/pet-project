@@ -1,5 +1,6 @@
 {
   "libVersion": "3.15.2",
+  "cloudfunctionRoot": "cloudfunctions/",
   "projectname": "wechat-miniprogram-%E9%87%8D%E6%96%B0%E5%87%BA%E5%8F%91",
   "setting": {
     "urlCheck": true,

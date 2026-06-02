@@ -1,7 +1,66 @@
-const petTypeLabels = {
+const PET_TYPE_LABELS = {
   cat: "猫咪",
   dog: "狗狗",
-  other: "其他小动物"
+  smallPet: "小宠",
+  exoticPet: "异宠",
+  other: "其他"
+};
+
+const PET_TYPE_OPTIONS = [
+  { label: PET_TYPE_LABELS.cat, value: "cat" },
+  { label: PET_TYPE_LABELS.dog, value: "dog" },
+  { label: PET_TYPE_LABELS.smallPet, value: "smallPet" },
+  { label: PET_TYPE_LABELS.exoticPet, value: "exoticPet" },
+  { label: PET_TYPE_LABELS.other, value: "other" }
+];
+
+const PET_TYPE_FILTERS = [
+  { label: "全部", value: "all" },
+  ...PET_TYPE_OPTIONS
+];
+
+const petTypeAliases = {
+  cat: "cat",
+  "猫": "cat",
+  "猫咪": "cat",
+  "英短": "cat",
+  "美短": "cat",
+  "布偶": "cat",
+  "狸花猫": "cat",
+  "橘猫": "cat",
+  "三花猫": "cat",
+  dog: "dog",
+  "狗": "dog",
+  "狗狗": "dog",
+  "泰迪": "dog",
+  "比熊": "dog",
+  "柯基": "dog",
+  "柴犬": "dog",
+  "金毛": "dog",
+  "拉布拉多": "dog",
+  "中华田园犬": "dog",
+  smallPet: "smallPet",
+  "小宠": "smallPet",
+  "兔子": "smallPet",
+  "仓鼠": "smallPet",
+  "龙猫": "smallPet",
+  "豚鼠": "smallPet",
+  "刺猬": "smallPet",
+  exoticPet: "exoticPet",
+  "异宠": "exoticPet",
+  "鸟": "exoticPet",
+  "鹦鹉": "exoticPet",
+  "鱼": "exoticPet",
+  "乌龟": "exoticPet",
+  "龟": "exoticPet",
+  "蜥蜴": "exoticPet",
+  "蛇": "exoticPet",
+  "蛙": "exoticPet",
+  "昆虫": "exoticPet",
+  "蜘蛛": "exoticPet",
+  other: "other",
+  "其他": "other",
+  "其他小动物": "other"
 };
 
 const petStatusLabels = {
@@ -17,7 +76,14 @@ const visibilityLabels = {
 };
 
 function normalizePetType(type) {
-  return ["cat", "dog", "other"].includes(type) ? type : "other";
+  const value = String(type || "").trim();
+  return petTypeAliases[value] || "other";
+}
+
+function normalizePetTypeFilter(type) {
+  const value = String(type || "").trim();
+  if (!value || value === "all" || value === "全部") return "";
+  return normalizePetType(value);
 }
 
 function normalizePetStatus(status) {
@@ -29,7 +95,7 @@ function normalizeVisibility(visibility) {
 }
 
 function petTypeLabel(type) {
-  return petTypeLabels[normalizePetType(type)];
+  return PET_TYPE_LABELS[normalizePetType(type)];
 }
 
 function petStatusLabel(status) {
@@ -76,9 +142,11 @@ function decorateCard(card) {
   const primaryType = primaryInteractionType(card.pet_status);
   const visibility = normalizeVisibility(card.visibility);
   const petStatus = normalizePetStatus(card.pet_status);
+  const petType = normalizePetType(card.pet_type);
   return {
     ...card,
-    pet_type_label: petTypeLabel(card.pet_type),
+    pet_type: petType,
+    pet_type_label: petTypeLabel(petType),
     pet_status_label: petStatusLabel(petStatus),
     pet_status_class: petStatus,
     visibility_label: visibilityLabel(visibility),
@@ -93,7 +161,11 @@ function decorateCard(card) {
 }
 
 module.exports = {
+  PET_TYPE_OPTIONS,
+  PET_TYPE_FILTERS,
+  PET_TYPE_LABELS,
   normalizePetType,
+  normalizePetTypeFilter,
   normalizePetStatus,
   normalizeVisibility,
   petTypeLabel,

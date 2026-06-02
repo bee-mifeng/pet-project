@@ -31,8 +31,16 @@
         </view>
 
         <view class="interaction-row">
-          <button class="ghost-button small-button interaction-like" data-type="{{card.primary_interaction_type}}" bindtap="interact">{{card.primary_interaction_label}} {{card.primary_interaction_count}}</button>
-          <button class="ghost-button small-button interaction-paw" data-type="paw_light" bindtap="interact">点亮小爪印 {{card.paw_lights_count || 0}}</button>
+          <button
+            class="ghost-button small-button interaction-like {{card.has_liked ? 'active' : ''}}"
+            data-type="{{card.primary_interaction_type}}"
+            loading="{{interacting}}"
+            bindtap="interact"
+          >
+            <text class="like-heart">{{card.has_liked ? "♥" : "♡"}}</text>
+            <text>{{card.has_liked ? "已喜欢" : "喜欢"}} {{card.primary_interaction_count}}</text>
+          </button>
+          <view class="view-stat">爪印 {{card.paw_lights_count || 0}}</view>
         </view>
 
         <view wx:if="{{isOwner}}" class="owner-panel">
@@ -66,13 +74,13 @@
       </view>
     </view>
 
-    <view class="section-title memory-section-title">它的记忆片段</view>
+    <view class="section-title memory-section-title">它的小爪记忆</view>
     <view class="memory-actions">
-      <button wx:if="{{isOwner}}" class="primary-button memory-add-button" bindtap="goCreateMemoryItem">添加一段记忆</button>
+      <button wx:if="{{isOwner}}" class="primary-button memory-add-button" bindtap="goCreateMemoryItem">添加小爪记忆</button>
     </view>
-    <view wx:if="{{memoryItems.length === 0}}" class="empty card">还没有记录片段。可以慢慢补上它陪伴你的每一个小瞬间。</view>
+    <view wx:if="{{memoryItems.length === 0}}" class="empty card">还没有小爪记忆。可以慢慢补上它陪伴你的每一个小瞬间。</view>
     <view wx:else class="memory-items">
-      <view wx:for="{{memoryItems}}" wx:key="_id" class="memory-item card">
+      <view wx:for="{{memoryItems}}" wx:key="_id" class="memory-item card" data-id="{{item._id}}" bindtap="openMemoryItem">
         <view class="memory-item-top">
           <view>
             <view class="memory-date">{{item.memory_date_label}}</view>
@@ -80,28 +88,24 @@
           </view>
           <view wx:if="{{isOwner}}" class="badge memory-status memory-status-{{item.visibility}}">{{item.visibility_label}}</view>
         </view>
-        <image wx:if="{{item.item_type === 'photo'}}" class="memory-media" src="{{item.media_src}}" mode="aspectFill"></image>
-        <video wx:elif="{{item.item_type === 'video'}}" class="memory-media" src="{{item.media_src}}" poster="{{item.cover_src}}" controls object-fit="contain"></video>
+        <image wx:if="{{item.item_type === 'photo' && item.media_src}}" class="memory-media" src="{{item.media_src}}" mode="aspectFill"></image>
+        <video wx:elif="{{item.item_type === 'video' && item.media_src}}" class="memory-media" src="{{item.media_src}}" poster="{{item.cover_src}}" controls object-fit="contain" catchtap="noop"></video>
         <view wx:if="{{item.content}}" class="memory-content">{{item.content}}</view>
-      </view>
-    </view>
-
-    <view class="message-panel card">
-      <view class="panel-title">{{card.message_action_label}}</view>
-      <view wx:if="{{!card.allow_messages}}" class="muted">主人暂时没有打开留言。</view>
-      <block wx:else>
-        <input class="form-control" value="{{comment.visitor_name}}" data-key="visitor_name" bindinput="inputMessage" placeholder="你的称呼，可不填" />
-        <textarea class="form-control textarea message-textarea" value="{{comment.content}}" data-key="content" bindinput="inputMessage" maxlength="180" placeholder="写下一句温柔的话，审核后会显示" />
-        <button class="primary-button message-button" loading="{{submittingMessage}}" bindtap="submitMessage">{{card.message_action_label}}</button>
-      </block>
-    </view>
-
-    <view class="section-title">留言</view>
-    <view wx:if="{{messages.length === 0}}" class="empty card">还没有公开显示的留言。</view>
-    <view wx:else class="messages">
-      <view wx:for="{{messages}}" wx:key="_id" class="message-item card">
-        <view class="message-name">{{item.visitor_name || "路过的朋友"}}</view>
-        <view class="message-content">{{item.content}}</view>
+        <view class="memory-item-actions">
+          <view class="memory-item-action">
+            <text class="memory-action-icon heart-icon">♥</text>
+            <text class="memory-action-count">{{item.likes_count || 0}}</text>
+          </view>
+          <view class="memory-item-action">
+            <text class="memory-action-icon comment-icon"></text>
+            <text class="memory-action-count">{{item.comments_count || 0}}</text>
+          </view>
+          <view class="memory-item-action">
+            <text class="memory-paw-emoji">🐾</text>
+            <text class="memory-action-count">{{item.paw_lights_count || 0}}</text>
+            <text class="memory-save-label">爪印</text>
+          </view>
+        </view>
       </view>
     </view>
   </block>

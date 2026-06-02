@@ -5,7 +5,7 @@
   <view class="filter-panel">
     <view class="filter-group">
       <view class="filter-title">宠物</view>
-      <scroll-view class="filters" scroll-x enable-flex>
+      <view class="filters">
         <view class="filter-wrap">
           <view
             wx:for="{{petTypeFilters}}"
@@ -15,12 +15,12 @@
             bindtap="changePetTypeFilter"
           >{{item.label}}</view>
         </view>
-      </scroll-view>
+      </view>
     </view>
 
     <view class="filter-group">
       <view class="filter-title">状态</view>
-      <scroll-view class="filters" scroll-x enable-flex>
+      <view class="filters">
         <view class="filter-wrap">
           <view
             wx:for="{{statusFilters}}"
@@ -30,7 +30,7 @@
             bindtap="changeStatusFilter"
           >{{item.label}}</view>
         </view>
-      </scroll-view>
+      </view>
     </view>
   </view>
 
@@ -38,7 +38,7 @@
   <view wx:elif="{{loadFailed}}" class="empty card">暂时没有加载成功，请稍后再试。</view>
   <view wx:elif="{{cards.length === 0}}" class="empty card">这里还很安静，等待更多主人分享毛孩子的故事。</view>
   <view wx:else class="card-list">
-    <view wx:for="{{cards}}" wx:key="_id" class="memory-card card">
+    <view wx:for="{{cards}}" wx:key="_id" class="memory-card card" data-id="{{item._id}}" bindtap="openCard">
       <view class="card-cover">
         <image class="card-photo" src="{{item.photo_src}}" mode="aspectFill"></image>
         <view wx:if="{{item.video_src}}" class="video-badge">含视频</view>
@@ -52,12 +52,20 @@
           <text class="pet-type-chip pet-type-{{item.pet_type}}">{{item.pet_type_label}}</text>
           <text> · {{item.timeline}}</text>
         </view>
-        <view class="card-story">{{item.brief_story}}</view>
-        <view class="card-stats">
-          <text>喜欢 {{item.like_count || 0}}</text>
-          <text>爪印 {{item.paw_lights_count || 0}}</text>
+        <view class="card-story">
+          <text class="story-name">{{item.pet_name}}</text>
+          <text>{{item.brief_story}}</text>
         </view>
-        <button class="quiet-button card-button" data-id="{{item._id}}" bindtap="openCard">查看记忆卡</button>
+        <view class="card-actions">
+          <view class="feed-action like-action {{item.has_liked ? 'liked' : ''}}" data-id="{{item._id}}" data-type="like" catchtap="interact">
+            <text class="action-icon">{{item.has_liked ? "♥" : "♡"}}</text>
+            <text>{{item.like_count || 0}}</text>
+          </view>
+          <view class="feed-stat paw-action">
+            <text class="action-icon">爪印</text>
+            <text>{{item.paw_lights_count || 0}}</text>
+          </view>
+        </view>
       </view>
     </view>
   </view>

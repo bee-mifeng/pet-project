@@ -1,6 +1,6 @@
 <view class="page admin-page safe-bottom">
   <view class="page-title">审核后台</view>
-  <view class="page-desc">这里用于审核申请公开的记忆卡，以及等待展示的留言。</view>
+  <view class="page-desc">这里用于审核申请公开的记忆卡、小爪记忆，以及等待展示的留言。</view>
 
   <view wx:if="{{!authChecked}}" class="empty card">正在校验身份...</view>
   <view wx:elif="{{!isAdmin}}" class="empty card">
@@ -13,8 +13,9 @@
 
     <view class="tabs">
       <view class="tab {{activeTab === 'cards' ? 'active' : ''}}" data-tab="cards" bindtap="switchTab">记忆卡</view>
-      <view class="tab {{activeTab === 'items' ? 'active' : ''}}" data-tab="items" bindtap="switchTab">片段</view>
       <view class="tab {{activeTab === 'messages' ? 'active' : ''}}" data-tab="messages" bindtap="switchTab">留言</view>
+      <view class="tab {{activeTab === 'pawMemories' ? 'active' : ''}}" data-tab="pawMemories" bindtap="switchTab">小爪记忆</view>
+      <view class="tab {{activeTab === 'pawComments' ? 'active' : ''}}" data-tab="pawComments" bindtap="switchTab">小爪留言</view>
     </view>
 
     <view wx:if="{{loading}}" class="empty card">正在读取待审核内容...</view>
@@ -32,6 +33,14 @@
             <view class="review-title">{{item.pet_name}}</view>
             <view class="review-meta">{{item.pet_type_label}} · {{item.pet_status_label}} · {{item.timeline}}</view>
             <view class="review-text">{{item.brief_story}}</view>
+            <view wx:if="{{item.ai_review_status_label}}" class="ai-review ai-review-{{item.ai_review_status_class}}">
+              <view class="ai-review-top">
+                <text>{{item.ai_review_status_label}}</text>
+                <text wx:if="{{item.ai_review_score_label}}">{{item.ai_review_score_label}}</text>
+              </view>
+              <view wx:if="{{item.ai_review_reason}}" class="ai-review-reason">{{item.ai_review_reason}}</view>
+              <view wx:if="{{item.ai_reviewed_label}}" class="ai-review-time">{{item.ai_reviewed_label}}</view>
+            </view>
             <view class="review-actions">
               <button class="quiet-button action-button" data-id="{{item._id}}" bindtap="openCard">查看详情</button>
               <button class="primary-button action-button" data-id="{{item._id}}" data-approved="true" bindtap="reviewCard">通过审核</button>
@@ -42,22 +51,56 @@
       </view>
     </block>
 
-    <block wx:elif="{{activeTab === 'items'}}">
-      <view wx:if="{{pendingMemoryItems.length === 0}}" class="empty card">没有待审核记忆片段。</view>
+    <block wx:elif="{{activeTab === 'messages'}}">
+      <view wx:if="{{pendingMessages.length === 0}}" class="empty card">没有待审核留言。</view>
       <view wx:else class="review-list">
-        <view wx:for="{{pendingMemoryItems}}" wx:key="_id" class="memory-item-review card">
-          <image wx:if="{{item.item_type === 'photo'}}" class="review-photo" src="{{item.media_src}}" mode="aspectFill"></image>
-          <view wx:elif="{{item.item_type === 'video'}}" class="review-video-wrap">
-            <view class="review-media-title">视频片段</view>
-            <video class="review-video" src="{{item.media_src}}" poster="{{item.cover_src}}" controls object-fit="contain"></video>
+        <view wx:for="{{pendingMessages}}" wx:key="_id" class="message-review card">
+          <view class="message-name">{{item.visitor_name || "路过的朋友"}}</view>
+          <view class="message-content">{{item.content}}</view>
+          <view class="message-card-id">card_id：{{item.card_id}}</view>
+          <view wx:if="{{item.ai_review_status_label}}" class="ai-review ai-review-{{item.ai_review_status_class}}">
+            <view class="ai-review-top">
+              <text>{{item.ai_review_status_label}}</text>
+              <text wx:if="{{item.ai_review_score_label}}">{{item.ai_review_score_label}}</text>
+            </view>
+            <view wx:if="{{item.ai_review_reason}}" class="ai-review-reason">{{item.ai_review_reason}}</view>
+            <view wx:if="{{item.ai_reviewed_label}}" class="ai-review-time">{{item.ai_reviewed_label}}</view>
           </view>
+          <view class="review-actions">
+            <button class="primary-button action-button" data-id="{{item._id}}" data-approved="true" bindtap="reviewMessage">通过留言</button>
+            <button class="danger-button action-button" data-id="{{item._id}}" data-approved="false" bindtap="reviewMessage">拒绝留言</button>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <block wx:elif="{{activeTab === 'pawMemories'}}">
+      <view wx:if="{{pendingPawMemories.length === 0}}" class="empty card">没有待审核小爪记忆。</view>
+      <view wx:else class="review-list">
+        <view wx:for="{{pendingPawMemories}}" wx:key="_id" class="paw-memory-review card">
           <view class="review-body">
-            <view class="review-title">{{item.title}}</view>
-            <view class="review-meta">{{item.memory_date_label}} · card_id：{{item.memorial_id}}</view>
-            <view class="review-text">{{item.content}}</view>
+            <view class="review-title">{{item.pet_name}}</view>
+            <view class="review-meta">{{item.pet_type_label}} · {{item.source_label}} · {{item.created_label}}</view>
+            <view wx:if="{{item.title}}" class="review-subtitle">{{item.title}}</view>
+            <view wx:if="{{item.content}}" class="review-text">{{item.content}}</view>
+            <view wx:if="{{item.ai_review_status_label}}" class="ai-review ai-review-{{item.ai_review_status_class}}">
+              <view class="ai-review-top">
+                <text>{{item.ai_review_status_label}}</text>
+                <text wx:if="{{item.ai_review_score_label}}">{{item.ai_review_score_label}}</text>
+              </view>
+              <view wx:if="{{item.ai_review_reason}}" class="ai-review-reason">{{item.ai_review_reason}}</view>
+              <view wx:if="{{item.ai_reviewed_label}}" class="ai-review-time">{{item.ai_reviewed_label}}</view>
+            </view>
+          </view>
+          <image wx:if="{{item.media_type === 'image' && item.media_src}}" class="review-photo" src="{{item.media_src}}" mode="aspectFill"></image>
+          <view wx:elif="{{item.media_type === 'video' && item.media_src}}" class="review-video-wrap">
+            <view class="review-media-title">视频小爪记忆</view>
+            <video class="review-video" src="{{item.media_src}}" poster="{{item.video_cover_src}}" controls object-fit="contain"></video>
+          </view>
+          <view class="review-body review-actions-body">
             <view class="review-actions">
-              <button class="primary-button action-button" data-id="{{item._id}}" data-approved="true" bindtap="reviewMemoryItem">通过片段</button>
-              <button class="danger-button action-button" data-id="{{item._id}}" data-approved="false" bindtap="reviewMemoryItem">拒绝片段</button>
+              <button class="primary-button action-button" data-id="{{item._id}}" data-source-type="{{item.source_type}}" data-approved="true" bindtap="reviewPawMemory">通过小爪记忆</button>
+              <button class="danger-button action-button" data-id="{{item._id}}" data-source-type="{{item.source_type}}" data-approved="false" bindtap="reviewPawMemory">拒绝小爪记忆</button>
             </view>
           </view>
         </view>
@@ -65,15 +108,23 @@
     </block>
 
     <block wx:else>
-      <view wx:if="{{pendingMessages.length === 0}}" class="empty card">没有待审核留言。</view>
+      <view wx:if="{{pendingPawMemoryComments.length === 0}}" class="empty card">没有待审核小爪记忆留言。</view>
       <view wx:else class="review-list">
-        <view wx:for="{{pendingMessages}}" wx:key="_id" class="message-review card">
-          <view class="message-name">{{item.visitor_name || "路过的朋友"}}</view>
+        <view wx:for="{{pendingPawMemoryComments}}" wx:key="_id" class="message-review card">
+          <view class="message-name">小爪记忆留言</view>
           <view class="message-content">{{item.content}}</view>
-          <view class="message-card-id">card_id：{{item.card_id}}</view>
+          <view class="message-card-id">paw_memory_id：{{item.paw_memory_id}}</view>
+          <view wx:if="{{item.ai_review_status_label}}" class="ai-review ai-review-{{item.ai_review_status_class}}">
+            <view class="ai-review-top">
+              <text>{{item.ai_review_status_label}}</text>
+              <text wx:if="{{item.ai_review_score_label}}">{{item.ai_review_score_label}}</text>
+            </view>
+            <view wx:if="{{item.ai_review_reason}}" class="ai-review-reason">{{item.ai_review_reason}}</view>
+            <view wx:if="{{item.ai_reviewed_label}}" class="ai-review-time">{{item.ai_reviewed_label}}</view>
+          </view>
           <view class="review-actions">
-            <button class="primary-button action-button" data-id="{{item._id}}" data-approved="true" bindtap="reviewMessage">通过留言</button>
-            <button class="danger-button action-button" data-id="{{item._id}}" data-approved="false" bindtap="reviewMessage">拒绝留言</button>
+            <button class="primary-button action-button" data-id="{{item._id}}" data-approved="true" bindtap="reviewPawMemoryComment">通过留言</button>
+            <button class="danger-button action-button" data-id="{{item._id}}" data-approved="false" bindtap="reviewPawMemoryComment">拒绝留言</button>
           </view>
         </view>
       </view>

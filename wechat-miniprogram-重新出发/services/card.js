@@ -1,5 +1,8 @@
-const { generateSlug } = require("../utils/slug");
-const { normalizePetType, normalizePetStatus, normalizeVisibility } = require("../utils/format");
+const {
+  normalizePetType,
+  normalizePetTypeFilter,
+  normalizePetStatus
+} = require("../utils/format");
 
 const db = wx.cloud.database();
 const cards = db.collection("memorials");
@@ -9,39 +12,8 @@ function now() {
 }
 
 async function createCard(input) {
-  const createdAt = now();
-  const visibility = normalizeVisibility(input.visibility);
-  const petStatus = normalizePetStatus(input.pet_status);
-  const data = {
-    slug: generateSlug(),
-    pet_name: String(input.pet_name || "").trim(),
-    pet_type: normalizePetType(input.pet_type),
-    pet_status: petStatus,
-    birth_or_adopted_date: input.birth_or_adopted_date || "",
-    star_date: petStatus === "star" ? input.star_date || "" : "",
-    photo_url: input.photo_url || "",
-    video_url: input.video_url || "",
-    video_duration: input.video_duration || 0,
-    video_size: input.video_size || 0,
-    story: input.story || "",
-    message: input.message || "",
-    visibility,
-    allow_messages: input.allow_messages !== false,
-    owner_openid: input.owner_openid || "",
-    owner_key: input.owner_key || "",
-    like_count: 0,
-    flower_count: 0,
-    paw_lights_count: 0,
-    created_at: createdAt,
-    updated_at: createdAt
-  };
-
   try {
-    const result = await cards.add({ data });
-    return {
-      _id: result._id,
-      ...data
-    };
+    return await callMemorialApi("createCard", input);
   } catch (error) {
     console.error("创建记忆卡失败", error);
     throw error;
@@ -79,25 +51,61 @@ async function getCard(options) {
   }
 }
 
+async function getMyPrimaryCard(options) {
+  const input = options || {};
+  const ownerKey = String(input.owner_key || input.user_key || "").trim();
+  const openid = String(input.openid || "").trim();
+
+  try {
+    const card = await callMemorialApi("getMyPrimaryCard", {
+      owner_key: ownerKey
+    });
+    if (card) return card;
+  } catch (error) {
+    console.warn("云函数读取我的主记忆卡失败，改用本地数据库读取", error);
+  }
+
+  try {
+    if (openid) {
+      const result = await cards.where({ owner_openid: openid }).orderBy("created_at", "desc").limit(1).get();
+      if (result.data && result.data[0]) return result.data[0];
+    }
+
+    if (ownerKey) {
+      const result = await cards.where({ owner_key: ownerKey }).orderBy("created_at", "desc").limit(1).get();
+      if (result.data && result.data[0]) return result.data[0];
+    }
+
+    return null;
+  } catch (fallbackError) {
+    console.error("读取我的主记忆卡失败", fallbackError);
+    return null;
+  }
+}
+
 async function listPublicCards(filter) {
   const filterObject = filter && typeof filter === "object"
     ? filter
     : { petType: filter };
 
   try {
-    return await callMemorialApi("listPublicCards", { filter: filterObject }) || [];
+    return await callMemorialApi("listPublicCards", {
+      filter: filterObject,
+      user_key: filterObject.userKey || ""
+    }) || [];
   } catch (error) {
     console.warn("云函数读取记忆花园失败，改用本地数据库读取", error);
     try {
       const where = { visibility: "public" };
-      if (filterObject.petType === "cat" || filterObject.petType === "dog" || filterObject.petType === "other") {
-        where.pet_type = filterObject.petType;
-      }
+      const petType = normalizePetTypeFilter(filterObject.petType);
       if (filterObject.petStatus === "living" || filterObject.petStatus === "star") {
         where.pet_status = filterObject.petStatus;
       }
       const result = await cards.where(where).orderBy("created_at", "desc").get();
-      return result.data || [];
+      const list = result.data || [];
+      return petType
+        ? list.filter((card) => normalizePetType(card.pet_type) === petType)
+        : list;
     } catch (fallbackError) {
       console.error("读取记忆花园失败", fallbackError);
       throw fallbackError;
@@ -133,12 +141,7 @@ async function listPendingCards() {
 
 async function applyPublic(id) {
   try {
-    await cards.doc(id).update({
-      data: {
-        visibility: "pending",
-        updated_at: now()
-      }
-    });
+    await callMemorialApi("applyPublic", { id });
   } catch (error) {
     console.error("申请公开失败", error);
     throw error;
@@ -187,6 +190,7 @@ async function reviewCard(id, approved) {
 module.exports = {
   createCard,
   getCard,
+  getMyPrimaryCard,
   listPublicCards,
   listMine,
   listPendingCards,

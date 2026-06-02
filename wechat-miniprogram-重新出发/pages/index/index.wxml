@@ -4,8 +4,7 @@
     <view class="page-title">为毛孩子保存一页温柔的记忆。</view>
     <view class="page-desc">记录它的照片、故事、来到你身边的日子，以及你最想对它说的话。</view>
     <view class="hero-actions">
-      <button class="primary-button" bindtap="goCreate">创建毛孩子档案</button>
-      <button class="ghost-button" bindtap="goGarden">浏览记忆花园</button>
+      <button class="primary-button" bindtap="goPrimaryAction">{{hasPrimaryCard ? "我的记忆卡" : "创建毛孩子档案"}}</button>
     </view>
     <view class="trust">默认私密保存，是否公开由你决定。</view>
   </view>
@@ -24,16 +23,29 @@
     <view class="sample-body">
       <view class="sample-top">
         <view class="sample-name">{{sample.pet_name}}</view>
-        <view class="badge">{{sample.pet_status_label}}</view>
+        <view class="badge status-badge status-living">{{sample.pet_status_label}}</view>
       </view>
-      <view class="sample-meta">{{sample.pet_type_label}} · {{sample.timeline}}</view>
+      <view class="sample-meta">
+        <text class="pet-type-chip pet-type-{{sample.pet_type}}">{{sample.pet_type_label}}</text>
+        <text> · {{sample.timeline}}</text>
+      </view>
       <view class="sample-story">{{sample.story}}</view>
+      <view class="sample-actions">
+        <view class="sample-action sample-like">
+          <text class="sample-action-icon">♡</text>
+          <text>{{sample.like_count}}</text>
+        </view>
+        <view class="sample-action sample-paw">
+          <text class="sample-action-icon">爪印</text>
+          <text>{{sample.paw_lights_count}}</text>
+        </view>
+      </view>
     </view>
   </view>
 
   <view class="section-title">安心保存，公开可控</view>
   <view class="note-card card">
-    <view>你的记忆卡默认私密保存。只有在你主动申请公开，并通过审核后，才会展示到记忆花园。留言祝福也会先审核，再显示在页面中。</view>
+    <view>你的记忆卡默认私密保存。只有在你主动申请公开，并通过审核后，才会展示到记忆花园。</view>
     <view class="policy-links">
       <text data-page="agreement" bindtap="openRules">用户协议</text>
       <text data-page="privacy" bindtap="openRules">隐私政策</text>

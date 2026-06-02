@@ -1,6 +1,10 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/paw-memory/index",
+    "pages/notifications/index",
+    "pages/paw-memory-detail/index",
+    "pages/paw-memory-create/index",
     "pages/create/index",
     "pages/memory-create/index",
     "pages/card/index",
@@ -31,16 +35,16 @@
         "selectedIconPath": "assets/tabbar/home-active.png"
       },
       {
+        "pagePath": "pages/paw-memory/index",
+        "text": "小爪记忆",
+        "iconPath": "assets/tabbar/paw-memory.png",
+        "selectedIconPath": "assets/tabbar/paw-memory-active.png"
+      },
+      {
         "pagePath": "pages/garden/index",
         "text": "记忆花园",
         "iconPath": "assets/tabbar/garden.png",
         "selectedIconPath": "assets/tabbar/garden-active.png"
-      },
-      {
-        "pagePath": "pages/create/index",
-        "text": "创建",
-        "iconPath": "assets/tabbar/create.png",
-        "selectedIconPath": "assets/tabbar/create-active.png"
       },
       {
         "pagePath": "pages/mine/index",

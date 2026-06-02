@@ -1,0 +1,192 @@
+<view class="page paw-memory-detail-page safe-bottom">
+  <view wx:if="{{loading}}" class="empty card">正在打开这段小爪记忆...</view>
+  <view wx:elif="{{loadFailed}}" class="empty card">暂时没有找到这段小爪记忆，或它还没有公开。</view>
+
+  <block wx:elif="{{memory}}">
+    <view class="detail-card card">
+      <view class="paw-card-head">
+        <image class="pet-avatar pet-card-link" src="{{memory.pet_avatar_src}}" mode="aspectFill" data-pet-id="{{memory.pet_id}}" bindtap="openPetCard"></image>
+        <view class="pet-info pet-card-link" data-pet-id="{{memory.pet_id}}" bindtap="openPetCard">
+          <view class="pet-name">{{memory.pet_name}}</view>
+          <view class="pet-meta">
+            <text class="pet-type pet-type-{{memory.pet_type}}">{{memory.pet_type_label}}</text>
+            <text class="time-text">{{memory.created_label}}</text>
+          </view>
+        </view>
+      </view>
+      <view wx:if="{{memory.is_owner}}" class="detail-more-button" catchtap="openMemoryActions">
+        <text></text>
+        <text></text>
+        <text></text>
+      </view>
+
+      <view wx:if="{{memory.title}}" class="paw-title">{{memory.title}}</view>
+      <view wx:if="{{memory.content}}" class="paw-content">{{memory.content}}</view>
+
+      <view wx:if="{{memory.media_failed}}" class="media-fallback">
+        <view class="media-fallback-title">媒体暂时没有打开</view>
+        <view class="media-fallback-desc">文字内容仍会保留，可以下拉刷新后再看看。</view>
+      </view>
+      <image
+        wx:elif="{{memory.media_type === 'image' && memory.media_src}}"
+        class="paw-media"
+        src="{{memory.media_src}}"
+        mode="aspectFill"
+        binderror="mediaError"
+      ></image>
+      <video
+        wx:elif="{{memory.media_type === 'video' && memory.media_src}}"
+        id="{{memory.video_id}}"
+        class="paw-video"
+        src="{{memory.media_src}}"
+        poster="{{memory.video_cover_src || memory.pet_avatar_src}}"
+        controls
+        show-center-play-btn="{{true}}"
+        enable-play-gesture="{{true}}"
+        object-fit="contain"
+        binderror="mediaError"
+      ></video>
+
+      <view class="paw-actions">
+        <button class="paw-icon-action like-action {{memory.has_liked ? 'active' : ''}}" data-type="like" bindtap="interact">
+          <text class="ins-icon heart-icon">{{memory.has_liked ? "♥" : "♡"}}</text>
+          <text class="action-count">{{memory.likes_count || 0}}</text>
+        </button>
+        <view class="paw-icon-action comment-action">
+          <text class="ins-icon comment-icon"></text>
+          <text class="action-count">{{commentsCountText}}</text>
+        </view>
+        <view class="paw-icon-action paw-save-stat {{memory.has_pawed ? 'active' : ''}}">
+          <text class="paw-emoji">🐾</text>
+          <text class="action-count">{{memory.paw_lights_count || 0}}</text>
+          <text class="save-label">爪印</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="comments-card card">
+      <view class="comments-head">
+        <view>
+          <view class="section-title detail-section-title">小爪留言（{{commentsCountText}}）</view>
+          <view class="comment-subtitle">留言审核通过后会公开显示。</view>
+        </view>
+      </view>
+
+      <view wx:if="{{commentsCount === 0}}" class="comment-empty">还没有公开留言。</view>
+      <view wx:else class="comment-list">
+        <view wx:for="{{comments}}" wx:key="_id" class="comment-item" data-id="{{item._id}}" bindtap="startCommentReply">
+          <view class="comment-row">
+            <view class="comment-avatar-wrap" data-card-id="{{item.visitor_card_id}}" catchtap="openCommenterCard">
+              <image wx:if="{{item.avatar_src}}" class="comment-avatar-img" src="{{item.avatar_src}}" mode="aspectFill"></image>
+              <view wx:else class="comment-avatar">{{item.avatar_text}}</view>
+            </view>
+
+            <view class="comment-main">
+              <view class="comment-author-line">
+                <view class="comment-author" data-card-id="{{item.visitor_card_id}}" catchtap="openCommenterCard">{{item.display_name}}</view>
+                <text wx:if="{{item.is_pending}}" class="pending-badge">审核中</text>
+              </view>
+              <view class="comment-copy">
+                <text class="comment-text">{{item.content}}</text>
+              </view>
+
+              <view class="comment-actions-row">
+                <view class="comment-meta-inline">
+                  <text class="comment-time">{{item.created_label}}</text>
+                  <text wx:if="{{item.author_liked}}" class="author-liked">作者赞过</text>
+                </view>
+                <view class="comment-tools-inline">
+                  <button wx:if="{{!item.is_pending}}" class="comment-like-text {{item.has_liked ? 'active' : ''}}" data-id="{{item._id}}" catchtap="likeComment">
+                    <text class="comment-like-icon">{{item.has_liked ? "♥" : "♡"}}</text>
+                    <text wx:if="{{item.likes_count_text}}" class="comment-like-count">{{item.likes_count_text}}</text>
+                  </button>
+                </view>
+              </view>
+
+              <view wx:if="{{item.has_reply}}" class="author-reply">
+                <text class="author-reply-label">{{memory.pet_name}}</text>
+                <text class="author-reply-content">{{item.author_reply}}</text>
+              </view>
+
+              <view wx:if="{{item.replies && item.replies.length}}" class="reply-thread">
+                <view wx:for="{{item.replies}}" wx:for-item="reply" wx:key="_id" class="thread-reply" data-id="{{reply._id}}" catchtap="startCommentReply">
+                  <view class="reply-avatar-wrap" data-card-id="{{reply.visitor_card_id}}" catchtap="openCommenterCard">
+                    <image wx:if="{{reply.avatar_src}}" class="reply-avatar-img" src="{{reply.avatar_src}}" mode="aspectFill"></image>
+                    <view wx:else class="reply-avatar">{{reply.avatar_text}}</view>
+                  </view>
+                  <view class="reply-main">
+                    <view class="comment-author-line">
+                      <view class="reply-author" data-card-id="{{reply.visitor_card_id}}" catchtap="openCommenterCard">{{reply.display_name}}</view>
+                      <text wx:if="{{reply.is_pending}}" class="pending-badge">审核中</text>
+                    </view>
+                    <view class="reply-copy">
+                      <text wx:if="{{reply.reply_to_name}}" class="reply-mention">@{{reply.reply_to_name}} </text>
+                      <text>{{reply.content}}</text>
+                    </view>
+                    <view class="comment-actions-row reply-actions-row">
+                      <view class="comment-meta-inline">
+                        <text class="comment-time">{{reply.created_label}}</text>
+                        <text wx:if="{{reply.author_liked}}" class="author-liked">作者赞过</text>
+                      </view>
+                      <view class="comment-tools-inline">
+                        <button wx:if="{{!reply.is_pending}}" class="comment-like-text {{reply.has_liked ? 'active' : ''}}" data-id="{{reply._id}}" catchtap="likeComment">
+                          <text class="comment-like-icon">{{reply.has_liked ? "♥" : "♡"}}</text>
+                          <text wx:if="{{reply.likes_count_text}}" class="comment-like-count">{{reply.likes_count_text}}</text>
+                        </button>
+                      </view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="comment-form">
+        <view wx:if="{{!hasVisitorCard}}" class="comment-card-gate">
+          <view class="gate-title">创建自己的记忆卡后，就能留言和点赞</view>
+          <view class="gate-copy">留言会带上它的头像和名字，对方也可以点进你的记忆卡。</view>
+          <button class="primary-button gate-button" catchtap="goCreateCard">去创建记忆卡</button>
+        </view>
+        <block wx:else>
+          <view wx:if="{{commentReplyTarget}}" class="reply-target-bar">
+            <text>回复 @{{commentReplyTarget.name}}</text>
+            <button class="reply-target-cancel" catchtap="cancelCommentReply">取消</button>
+          </view>
+          <textarea class="comment-input" value="{{commentText}}" maxlength="160" placeholder="{{commentReplyTarget ? '写下回复内容' : '写下一句温柔的小留言'}}" bindinput="inputComment"></textarea>
+          <button class="primary-button comment-submit" loading="{{commentSubmitting}}" bindtap="submitComment">{{commentReplyTarget ? "提交回复" : "提交留言"}}</button>
+        </block>
+      </view>
+    </view>
+  </block>
+
+  <view wx:if="{{actionPanelVisible}}" class="memory-action-mask" catchtap="closeActionPanel"></view>
+  <view wx:if="{{actionPanelVisible}}" class="memory-action-panel" catchtap="noop">
+    <view class="memory-action-handle"></view>
+    <view class="memory-action-head">
+      <view class="memory-action-mark">🐾</view>
+      <view>
+        <view class="memory-action-title">小爪记忆设置</view>
+        <view class="memory-action-desc">轻轻整理这段被保存的陪伴。</view>
+      </view>
+    </view>
+    <view class="memory-action-list">
+      <view wx:if="{{memory.visibility === 'public'}}" class="memory-action-item hide-action" catchtap="chooseHideMemory">
+        <view class="memory-action-icon">藏</view>
+        <view class="memory-action-copy">
+          <view class="memory-action-name">隐藏这条动态</view>
+          <view class="memory-action-note">重新公布需要重新提交审核</view>
+        </view>
+      </view>
+      <view class="memory-action-item delete-action" catchtap="chooseDeleteMemory">
+        <view class="memory-action-icon">删</view>
+        <view class="memory-action-copy">
+          <view class="memory-action-name">删除这条动态</view>
+          <view class="memory-action-note">删除后将不再展示相关留言</view>
+        </view>
+      </view>
+    </view>
+    <view class="memory-action-cancel" catchtap="closeActionPanel">取消</view>
+  </view>
+</view>

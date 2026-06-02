@@ -1,0 +1,119 @@
+<view class="page paw-memory-page safe-bottom">
+  <view class="paw-title-row">
+    <view class="page-title">小爪记忆</view>
+    <view class="notification-entry {{unreadNotificationText ? 'has-unread' : ''}}" bindtap="openNotifications" aria-label="动态通知">
+      <text class="bell-icon"></text>
+      <text wx:if="{{unreadNotificationText}}" class="notification-badge">{{unreadNotificationText}}</text>
+    </view>
+  </view>
+  <view class="page-desc">分享毛孩子今天的小瞬间，也保存那些值得记住的陪伴。</view>
+
+  <button class="primary-button publish-button" bindtap="goCreate">发布小爪记忆</button>
+
+  <view class="filters">
+    <view class="filter-wrap">
+      <view
+        wx:for="{{filters}}"
+        wx:key="value"
+        class="filter {{activePetType === item.value ? 'active' : ''}}"
+        data-filter="{{item.value}}"
+        bindtap="changeFilter"
+      >{{item.label}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="empty card">正在整理小爪记忆...</view>
+  <view wx:elif="{{loadFailed}}" class="empty card">暂时没有加载成功，请稍后再试。</view>
+  <view wx:elif="{{memories.length === 0}}" class="empty card">还没有公开的小爪记忆。可以先分享毛孩子今天的一个小瞬间。</view>
+  <view wx:else class="paw-feed">
+    <view wx:for="{{memories}}" wx:key="_id" wx:for-index="index" class="paw-card card" data-id="{{item._id}}" bindtap="openMemory">
+      <view class="paw-card-head">
+        <image class="pet-avatar pet-card-link" src="{{item.pet_avatar_src}}" mode="aspectFill" data-pet-id="{{item.pet_id}}" catchtap="openPetCard"></image>
+        <view class="pet-info pet-card-link" data-pet-id="{{item.pet_id}}" catchtap="openPetCard">
+          <view class="pet-name">{{item.pet_name}}</view>
+          <view class="pet-meta">
+            <text class="pet-type pet-type-{{item.pet_type}}">{{item.pet_type_label}}</text>
+            <text class="time-text">{{item.created_label}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{item.title}}" class="paw-title">{{item.title}}</view>
+      <view wx:if="{{item.content}}" class="paw-content">{{item.content}}</view>
+
+      <view wx:if="{{item.media_failed}}" class="media-fallback">
+        <view class="media-fallback-title">媒体暂时没有打开</view>
+        <view class="media-fallback-desc">文字内容仍会保留，可以下拉刷新后再看看。</view>
+      </view>
+      <image
+        wx:elif="{{item.media_type === 'image' && item.media_src}}"
+        class="paw-media"
+        src="{{item.media_src}}"
+        mode="aspectFill"
+        data-id="{{item._id}}"
+        binderror="mediaError"
+      ></image>
+      <video
+        wx:elif="{{item.media_type === 'video' && item.media_src}}"
+        id="{{item.video_id}}"
+        class="paw-video"
+        src="{{item.media_src}}"
+        poster="{{item.video_cover_src || item.pet_avatar_src}}"
+        controls
+        show-center-play-btn="{{true}}"
+        enable-play-gesture="{{true}}"
+        object-fit="contain"
+        data-id="{{item._id}}"
+        data-videoid="{{item.video_id}}"
+        bindplay="playVideo"
+        catchtap="noop"
+        binderror="mediaError"
+      ></video>
+
+      <view class="paw-actions">
+        <button class="paw-icon-action like-action {{item.has_liked ? 'active' : ''}}" data-id="{{item._id}}" data-type="like" catchtap="interact">
+          <text class="ins-icon heart-icon">{{item.has_liked ? "♥" : "♡"}}</text>
+          <text class="action-count">{{item.likes_count || 0}}</text>
+        </button>
+        <button class="paw-icon-action comment-action" data-id="{{item._id}}" catchtap="openComments">
+          <text class="ins-icon comment-icon"></text>
+          <text class="action-count">{{item.comments_count || 0}}</text>
+        </button>
+        <view class="paw-icon-action paw-save-stat {{item.has_pawed ? 'active' : ''}}">
+          <text class="paw-emoji">🐾</text>
+          <text class="action-count">{{item.paw_lights_count || 0}}</text>
+          <text class="save-label">爪印</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{commentPanelVisible}}" class="comment-mask" bindtap="closeComments"></view>
+  <view wx:if="{{commentPanelVisible}}" class="comment-panel">
+    <view class="comment-handle"></view>
+    <view class="comment-head">
+      <view>
+        <view class="comment-title">{{commentMemory.pet_name}}的小爪留言</view>
+        <view class="comment-subtitle">留言审核通过后会公开显示。</view>
+      </view>
+      <view class="comment-close" bindtap="closeComments">×</view>
+    </view>
+
+    <view wx:if="{{commentsLoading}}" class="comment-empty">正在读取留言...</view>
+    <view wx:elif="{{comments.length === 0}}" class="comment-empty">还没有公开留言。</view>
+    <scroll-view wx:else class="comment-list" scroll-y>
+      <view wx:for="{{comments}}" wx:key="_id" class="comment-item">
+        <view class="comment-content">{{item.content}}</view>
+        <view wx:if="{{item.author_reply}}" class="author-reply">
+          <view class="author-reply-label">作者回复</view>
+          <view class="author-reply-content">{{item.author_reply}}</view>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class="comment-form">
+      <textarea class="comment-input" value="{{commentText}}" maxlength="160" placeholder="写下一句温柔的小留言" bindinput="inputComment"></textarea>
+      <button class="primary-button comment-submit" loading="{{commentSubmitting}}" bindtap="submitComment">提交留言</button>
+    </view>
+  </view>
+</view>

@@ -23,21 +23,25 @@
 }
 
 .media-actions {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 14rpx;
+  display: flex;
+  align-items: stretch;
   width: 100%;
 }
 
 .media-button {
+  flex: 1 1 0;
   box-sizing: border-box;
-  width: 100%;
+  width: auto;
   min-width: 0;
   height: 78rpx;
   padding: 0 12rpx;
   margin: 0;
   font-size: 26rpx;
   line-height: 1.2;
+}
+
+.media-button + .media-button {
+  margin-left: 14rpx;
 }
 
 .media-button:first-child {

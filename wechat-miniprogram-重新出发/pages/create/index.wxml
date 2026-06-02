@@ -11,7 +11,7 @@
     <view class="field">
       <text class="form-label">它是</text>
       <picker mode="selector" range="{{petTypes}}" range-key="label" value="{{petTypeIndex}}" bindchange="changePetType">
-        <view class="form-control picker-text">{{petTypeIndex >= 0 ? petTypes[petTypeIndex].label : "请选择猫咪、狗狗或其他小动物"}}</view>
+        <view class="form-control picker-text">{{petTypeIndex >= 0 ? petTypes[petTypeIndex].label : "请选择宠物类型"}}</view>
       </picker>
     </view>
 

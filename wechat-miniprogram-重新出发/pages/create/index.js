@@ -1,5 +1,6 @@
 const cardService = require("../../services/card");
 const uploadService = require("../../services/upload");
+const { PET_TYPE_OPTIONS, normalizePetType } = require("../../utils/format");
 
 const MAX_PHOTO_SIZE = 2 * 1024 * 1024;
 const MAX_VIDEO_DURATION = 20;
@@ -7,11 +8,7 @@ const MAX_VIDEO_SIZE = 30 * 1024 * 1024;
 
 Page({
   data: {
-    petTypes: [
-      { label: "猫咪", value: "cat" },
-      { label: "狗狗", value: "dog" },
-      { label: "其他小动物", value: "other" }
-    ],
+    petTypes: PET_TYPE_OPTIONS,
     petTypeIndex: -1,
     form: {
       pet_name: "",
@@ -41,7 +38,7 @@ Page({
     const index = Number(event.detail.value);
     this.setData({
       petTypeIndex: index,
-      "form.pet_type": this.data.petTypes[index].value
+      "form.pet_type": normalizePetType(this.data.petTypes[index].value)
     });
   },
 
@@ -136,7 +133,7 @@ Page({
       return false;
     }
     if (!this.data.form.pet_type) {
-      wx.showToast({ title: "请选择猫咪、狗狗或其他小动物", icon: "none" });
+      wx.showToast({ title: "请选择宠物类型", icon: "none" });
       return false;
     }
     if (!this.data.photoPath) {

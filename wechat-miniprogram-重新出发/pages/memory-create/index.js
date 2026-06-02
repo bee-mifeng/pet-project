@@ -18,6 +18,7 @@ Page({
     },
     mediaType: "",
     mediaPath: "",
+    videoCoverPath: "",
     mediaSize: 0,
     videoDuration: 0,
     isOwner: false,
@@ -86,6 +87,7 @@ Page({
       this.setData({
         mediaType: "photo",
         mediaPath: file.tempFilePath,
+        videoCoverPath: "",
         mediaSize: file.size || 0,
         videoDuration: 0
       });
@@ -118,6 +120,7 @@ Page({
       this.setData({
         mediaType: "video",
         mediaPath: file.tempFilePath,
+        videoCoverPath: file.thumbTempFilePath || "",
         mediaSize: file.size || 0,
         videoDuration: duration
       });
@@ -130,6 +133,7 @@ Page({
     this.setData({
       mediaType: "",
       mediaPath: "",
+      videoCoverPath: "",
       mediaSize: 0,
       videoDuration: 0
     });
@@ -174,6 +178,14 @@ Page({
       const mediaUrl = this.data.mediaType === "video"
         ? await uploadService.uploadMemoryVideo(this.data.mediaPath, openid || ownerKey)
         : await uploadService.uploadMemoryPhoto(this.data.mediaPath, openid || ownerKey);
+      let coverUrl = "";
+      if (this.data.mediaType === "video" && this.data.videoCoverPath) {
+        try {
+          coverUrl = await uploadService.uploadMemoryVideoCover(this.data.videoCoverPath, openid || ownerKey);
+        } catch (coverError) {
+          console.warn("上传记忆片段视频封面失败，继续保存视频", coverError);
+        }
+      }
 
       await memoryItemService.createMemoryItem({
         memorial_id: this.data.memorialId,
@@ -182,6 +194,7 @@ Page({
         item_type: this.data.mediaType,
         media_url: mediaUrl,
         media_file_id: mediaUrl,
+        cover_url: coverUrl,
         title: this.data.form.title,
         content: this.data.form.content,
         memory_date: this.data.form.memory_date,

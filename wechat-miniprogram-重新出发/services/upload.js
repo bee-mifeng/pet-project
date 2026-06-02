@@ -56,9 +56,69 @@ async function uploadMemoryVideo(tempFilePath, ownerKey) {
   }
 }
 
+async function uploadMemoryVideoCover(tempFilePath, ownerKey) {
+  try {
+    const cloudPath = `memory-items/${ownerKey || "guest"}/covers/${safeFileName(tempFilePath)}`;
+    const result = await wx.cloud.uploadFile({
+      cloudPath,
+      filePath: tempFilePath
+    });
+    return result.fileID;
+  } catch (error) {
+    console.error("上传记忆片段视频封面失败", error);
+    throw error;
+  }
+}
+
+async function uploadPawMemoryPhoto(tempFilePath, ownerKey) {
+  try {
+    const cloudPath = `paw-memories/${ownerKey || "guest"}/photos/${safeFileName(tempFilePath)}`;
+    const result = await wx.cloud.uploadFile({
+      cloudPath,
+      filePath: tempFilePath
+    });
+    return result.fileID;
+  } catch (error) {
+    console.error("上传小爪记忆照片失败", error);
+    throw error;
+  }
+}
+
+async function uploadPawMemoryVideo(tempFilePath, ownerKey) {
+  try {
+    const cloudPath = `paw-memories/${ownerKey || "guest"}/videos/${safeFileName(tempFilePath, ".mp4")}`;
+    const result = await wx.cloud.uploadFile({
+      cloudPath,
+      filePath: tempFilePath
+    });
+    return result.fileID;
+  } catch (error) {
+    console.error("上传小爪记忆视频失败", error);
+    throw error;
+  }
+}
+
+async function uploadPawMemoryVideoCover(tempFilePath, ownerKey) {
+  try {
+    const cloudPath = `paw-memories/${ownerKey || "guest"}/covers/${safeFileName(tempFilePath)}`;
+    const result = await wx.cloud.uploadFile({
+      cloudPath,
+      filePath: tempFilePath
+    });
+    return result.fileID;
+  } catch (error) {
+    console.error("上传小爪记忆视频封面失败", error);
+    throw error;
+  }
+}
+
 module.exports = {
   uploadPetPhoto,
   uploadPetVideo,
   uploadMemoryPhoto,
-  uploadMemoryVideo
+  uploadMemoryVideo,
+  uploadMemoryVideoCover,
+  uploadPawMemoryPhoto,
+  uploadPawMemoryVideo,
+  uploadPawMemoryVideoCover
 };

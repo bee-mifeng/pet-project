@@ -1,0 +1,54 @@
+<view class="page notifications-page safe-bottom">
+  <view class="notice-nav" style="{{navStyle}}">
+    <view class="notice-nav-left" bindtap="goBack" aria-label="返回">
+      <text class="notice-back">‹</text>
+    </view>
+    <view class="notice-nav-title">动态通知</view>
+  </view>
+
+  <view class="notice-tabs">
+    <view
+      wx:for="{{filters}}"
+      wx:key="value"
+      class="notice-tab {{activeFilter === item.value ? 'active' : ''}}"
+      data-value="{{item.value}}"
+      bindtap="changeFilter"
+    >
+      <text>{{item.label}}</text>
+      <text wx:if="{{item.hasUnread}}" class="filter-dot"></text>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="notice-state">正在整理新的动态...</view>
+  <view wx:elif="{{loadFailed}}" class="notice-state">暂时没有读取成功，请稍后再试。</view>
+  <view wx:elif="{{filteredNotifications.length === 0}}" class="notice-state">这里还没有新的提醒。</view>
+
+  <view wx:else class="notification-list">
+    <view
+      wx:for="{{filteredNotifications}}"
+      wx:key="_id"
+      class="notification-item {{item.was_unread ? 'unread' : ''}}"
+      data-id="{{item.open_target_id}}"
+      data-target-type="{{item.open_target_type}}"
+      bindtap="openTarget"
+    >
+      <view class="avatar-wrap">
+        <image wx:if="{{item.actor_avatar_src}}" class="avatar-img" src="{{item.actor_avatar_src}}" mode="aspectFill"></image>
+        <view wx:else class="avatar-fallback">{{item.actor_avatar_text}}</view>
+      </view>
+
+      <view class="notification-main">
+        <view class="notification-line">
+          <text class="actor-name">{{item.actor_name}}</text>
+          <text class="action-label"> {{item.action_label}}</text>
+          <text wx:if="{{item.was_unread}}" class="unread-dot"></text>
+        </view>
+        <view class="notification-time">{{item.created_label}}</view>
+        <view wx:if="{{item.has_preview}}" class="notification-preview">{{item.content_preview}}</view>
+      </view>
+
+      <image wx:if="{{item.target_image_src}}" class="target-thumb" src="{{item.target_image_src}}" mode="aspectFill"></image>
+      <view wx:else class="target-thumb target-placeholder">爪</view>
+    </view>
+  </view>
+</view>

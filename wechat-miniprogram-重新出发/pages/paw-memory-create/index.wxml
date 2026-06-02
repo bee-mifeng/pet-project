@@ -1,0 +1,68 @@
+<view class="page paw-memory-create-page safe-bottom">
+  <view class="page-title">发布小爪记忆</view>
+  <view class="page-desc">分享毛孩子今天的小瞬间，也保存那些值得记住的陪伴。</view>
+
+  <view wx:if="{{loading}}" class="empty card">正在读取毛孩子档案...</view>
+  <view wx:elif="{{loadFailed}}" class="empty card">暂时没有加载成功，请稍后再试。</view>
+  <view wx:elif="{{cards.length === 0}}" class="empty card">
+    <view>还没有可以选择的记忆卡，请先创建毛孩子档案。</view>
+    <button class="primary-button empty-button" bindtap="goCreateCard">创建毛孩子档案</button>
+  </view>
+
+  <block wx:else>
+    <view class="form-card card">
+      <view class="field">
+        <text class="form-label">选择毛孩子</text>
+        <picker class="pet-picker-host" range="{{cards}}" range-key="pet_name" value="{{selectedCardIndex}}" bindchange="changePet">
+          <view class="pet-picker">
+            <image class="pet-avatar" src="{{selectedCard.photo_src}}" mode="aspectFill"></image>
+            <view>
+              <view class="pet-name">{{selectedCard.pet_name}}</view>
+              <view class="pet-meta">{{selectedCard.pet_type_label}} · {{selectedCard.pet_status_label}}</view>
+            </view>
+          </view>
+        </picker>
+      </view>
+
+      <view class="field">
+        <text class="form-label">写下今天的小瞬间</text>
+        <textarea
+          class="form-control textarea"
+          value="{{content}}"
+          maxlength="300"
+          placeholder="写下它今天的小表情、小动作，或一个想保存的瞬间。"
+          bindinput="inputContent"
+        ></textarea>
+        <view class="count-text">{{content.length}}/300</view>
+      </view>
+
+      <view class="field">
+        <text class="form-label">上传照片或视频</text>
+        <view class="field-help">图片或视频二选一。可以不上传媒体，但必须填写文字。</view>
+        <view wx:if="{{mediaPath && mediaType === 'image'}}" class="media-box">
+          <image class="media-preview" src="{{mediaPath}}" mode="aspectFill"></image>
+          <button class="quiet-button remove-media" bindtap="removeMedia">重新选择</button>
+        </view>
+        <view wx:elif="{{mediaPath && mediaType === 'video'}}" class="media-box">
+          <video class="media-preview" src="{{mediaPath}}" controls object-fit="contain"></video>
+          <view class="video-tip">{{videoDuration}} 秒</view>
+          <button class="quiet-button remove-media" bindtap="removeMedia">重新选择</button>
+        </view>
+        <view wx:else class="media-actions">
+          <button class="quiet-button media-button" bindtap="choosePhoto">选择照片</button>
+          <button class="quiet-button media-button" bindtap="chooseVideo">选择视频</button>
+        </view>
+      </view>
+
+      <view class="switch-row public-switch-row">
+        <view>
+          <view class="switch-title">申请公开展示</view>
+          <view class="switch-desc">开启后进入审核，通过后会出现在公共小爪记忆。</view>
+        </view>
+        <switch color="#5B5F97" checked="{{visibility === 'pending'}}" bindchange="switchVisibility"></switch>
+      </view>
+    </view>
+
+    <button class="primary-button submit-button" loading="{{submitting}}" bindtap="submitForm">{{visibility === 'pending' ? '提交公开审核' : '私密保存'}}</button>
+  </block>
+</view>

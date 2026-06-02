@@ -1,7 +1,4 @@
 <view class="page mine-page safe-bottom">
-  <view class="page-title">我的毛孩子记忆卡</view>
-  <view class="page-desc">这里保存你为毛孩子创建的所有记忆卡。</view>
-
   <view wx:if="{{isAdmin}}" class="admin-entry card">
     <view class="admin-entry-body">
       <view class="admin-entry-title">审核后台</view>
@@ -10,11 +7,17 @@
     <button class="primary-button admin-entry-button" bindtap="goAdmin">进入审核后台</button>
   </view>
 
+  <view class="mine-section-head mine-card-section-head">
+    <view class="section-title mine-section-title">我的记忆卡</view>
+  </view>
+
   <view wx:if="{{loading}}" class="empty card">正在读取我的记忆卡...</view>
   <view wx:elif="{{loadFailed}}" class="empty card">暂时没有加载成功，请稍后再试。</view>
-  <view wx:elif="{{cards.length === 0}}" class="empty card">
-    <view>还没有创建记忆卡。</view>
-    <button class="primary-button empty-button" bindtap="goCreate">创建第一张</button>
+  <view wx:elif="{{cards.length === 0}}" class="mine-create-card card">
+    <view class="mine-create-kicker">第一张毛孩子记忆卡</view>
+    <view class="mine-create-title">还没有毛孩子记忆卡</view>
+    <view class="mine-create-desc">创建后，就可以发布小爪记忆、留言和点赞，也能把它的照片与故事安静保存下来。</view>
+    <button class="primary-button mine-create-button" bindtap="goCreate">创建毛孩子记忆卡</button>
   </view>
   <view wx:else class="mine-list">
     <view wx:for="{{cards}}" wx:key="_id" class="mine-item card" data-id="{{item._id}}" bindtap="openCard">
@@ -42,4 +45,43 @@
       </view>
     </view>
   </view>
+
+  <block wx:if="{{!loading && !loadFailed}}">
+    <view class="mine-section-head">
+      <view class="section-title mine-section-title">最近小爪记忆</view>
+      <button class="quiet-button section-action" bindtap="goPawMemoryCreate">发布</button>
+    </view>
+
+    <view wx:if="{{pawMemories.length === 0}}" class="empty card">还没有发布小爪记忆。可以记录毛孩子今天的小瞬间。</view>
+    <view wx:else class="paw-memory-list">
+      <view wx:for="{{pawMemories}}" wx:key="_id" class="paw-memory-item card" data-id="{{item._id}}" data-pet-id="{{item.pet_id}}" bindtap="openPawMemory">
+        <image wx:if="{{item.media_type === 'image' && item.media_src}}" class="paw-memory-media" src="{{item.media_src}}" mode="aspectFill"></image>
+        <video wx:elif="{{item.media_type === 'video' && item.media_src}}" class="paw-memory-media" src="{{item.media_src}}" poster="{{item.video_cover_src}}" controls object-fit="contain" catchtap="noop"></video>
+        <view class="paw-memory-body">
+          <view class="paw-memory-top">
+            <view class="paw-memory-pet">{{item.pet_name}}</view>
+            <view class="badge visibility-badge visibility-{{item.visibility_class}}">{{item.visibility_label}}</view>
+          </view>
+          <view class="paw-memory-meta">{{item.pet_type_label}}</view>
+          <view wx:if="{{item.title}}" class="paw-memory-content paw-memory-title">{{item.title}}</view>
+          <view wx:if="{{item.content}}" class="paw-memory-content">{{item.content}}</view>
+        </view>
+        <view class="paw-memory-actions">
+          <view class="paw-memory-action like-action">
+            <text class="paw-action-icon heart-icon">♥</text>
+            <text class="paw-action-count">{{item.likes_count || 0}}</text>
+          </view>
+          <view class="paw-memory-action">
+            <text class="paw-action-icon comment-icon"></text>
+            <text class="paw-action-count">{{item.comments_count || 0}}</text>
+          </view>
+          <view class="paw-memory-action paw-stat">
+            <text class="paw-emoji">🐾</text>
+            <text class="paw-action-count">{{item.paw_lights_count || 0}}</text>
+            <text class="paw-save-label">爪印</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
 </view>

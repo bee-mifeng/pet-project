@@ -1,10 +1,6 @@
 const db = wx.cloud.database();
 const messages = db.collection("messages");
 
-function now() {
-  return new Date();
-}
-
 async function callMemorialApi(action, data) {
   const result = await wx.cloud.callFunction({
     name: "memorialApi",
@@ -18,17 +14,7 @@ async function callMemorialApi(action, data) {
 
 async function createMessage(input) {
   try {
-    const result = await messages.add({
-      data: {
-        card_id: input.card_id,
-        content: String(input.content || "").trim(),
-        openid: input.openid || "",
-        visitor_name: String(input.visitor_name || "").trim() || "路过的朋友",
-        review_status: "pending",
-        created_at: now()
-      }
-    });
-    return result._id;
+    return await callMemorialApi("createMessage", input);
   } catch (error) {
     console.error("提交留言失败", error);
     throw error;

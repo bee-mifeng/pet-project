@@ -1,9 +1,9 @@
 <view class="page memory-create-page safe-bottom">
-  <view class="page-title">添加一段记忆</view>
+  <view class="page-title">添加小爪记忆</view>
   <view class="page-desc">为这张记忆卡补上一段照片或视频，慢慢保存它陪伴你的每一个小瞬间。</view>
 
   <view wx:if="{{loading}}" class="empty card">正在打开记忆卡...</view>
-  <view wx:elif="{{loadFailed}}" class="empty card">没有找到对应记忆卡，或当前账号不能添加片段。</view>
+  <view wx:elif="{{loadFailed}}" class="empty card">没有找到对应记忆卡，或当前账号不能添加小爪记忆。</view>
   <block wx:else>
     <view class="form-card card">
       <view class="field">
@@ -49,6 +49,6 @@
       </view>
     </view>
 
-    <button class="primary-button submit-button" loading="{{submitting}}" bindtap="submitForm">保存这段记忆</button>
+    <button class="primary-button submit-button" loading="{{submitting}}" bindtap="submitForm">保存小爪记忆</button>
   </block>
 </view>

@@ -1,11 +1,28 @@
 const cardService = require("../../services/card");
 const mediaService = require("../../services/media");
-const { decorateCard } = require("../../utils/format");
+const pawMemoryService = require("../../services/paw-memory");
+const cardGate = require("../../utils/card-gate");
+const { decorateCard, normalizePetType, petTypeLabel, visibilityLabel } = require("../../utils/format");
 const { isAdminOpenId, normalizeOpenId } = require("../../config/admin");
+
+function decoratePawMemory(memory) {
+  const petType = normalizePetType(memory.pet_type);
+  return {
+    ...memory,
+    pet_type: petType,
+    pet_type_label: petTypeLabel(petType),
+    visibility_label: visibilityLabel(memory.visibility),
+    visibility_class: memory.visibility || "pending",
+    likes_count: memory.likes_count || 0,
+    comments_count: memory.comments_count || 0,
+    paw_lights_count: memory.paw_lights_count || 0
+  };
+}
 
 Page({
   data: {
     cards: [],
+    pawMemories: [],
     loading: true,
     loadFailed: false,
     openid: "",
@@ -32,18 +49,36 @@ Page({
     try {
       const cards = await cardService.listMine(currentOpenId);
       const cardsWithMedia = await mediaService.attachMediaUrls(cards);
+      let pawMemoriesWithMedia = [];
+
+      try {
+        const pawMemories = await pawMemoryService.listMine();
+        pawMemoriesWithMedia = await mediaService.attachPawMemoryUrls(pawMemories);
+      } catch (pawMemoryError) {
+        console.warn("我的小爪记忆加载失败，暂时显示为空", pawMemoryError);
+      }
+
+      const decoratedCards = cardsWithMedia.map(decorateCard);
+      const decoratedPawMemories = pawMemoriesWithMedia.map(decoratePawMemory);
+
       this.setData({
-        cards: cardsWithMedia.map(decorateCard),
+        cards: decoratedCards,
+        pawMemories: decoratedPawMemories,
         loading: false
       });
     } catch (error) {
-      this.setData({ cards: [], loading: false, loadFailed: true });
+      this.setData({
+        cards: [],
+        pawMemories: [],
+        loading: false,
+        loadFailed: true
+      });
       wx.showToast({ title: "加载失败，请稍后再试", icon: "none" });
     }
   },
 
   goCreate() {
-    wx.switchTab({ url: "/pages/create/index" });
+    cardGate.goCreateCardPage();
   },
 
   openCard(event) {
@@ -53,6 +88,32 @@ Page({
 
   goAdmin() {
     wx.navigateTo({ url: "/pages/admin/index" });
+  },
+
+  async goPawMemoryCreate() {
+    if (this.data.cards.length === 0) {
+      const card = await cardGate.ensureHasCard({
+        content: "创建毛孩子记忆卡后，就可以发布它的小爪记忆。"
+      });
+      if (!card) return;
+    }
+
+    wx.navigateTo({ url: "/pages/paw-memory-create/index" });
+  },
+
+  openPawMemory(event) {
+    const id = event.currentTarget.dataset.id;
+    if (!id) return;
+    wx.navigateTo({ url: `/pages/paw-memory-detail/index?id=${id}` });
+  },
+
+  openPawMemoryCard(event) {
+    const petId = event.currentTarget.dataset.petId;
+    if (!petId) {
+      wx.showToast({ title: "暂时没有找到对应记忆卡", icon: "none" });
+      return;
+    }
+    wx.navigateTo({ url: `/pages/card/index?id=${petId}` });
   },
 
   noop() {},

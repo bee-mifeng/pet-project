@@ -20,7 +20,7 @@
 
 .tabs {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
   gap: 14rpx;
   margin: 28rpx 0 22rpx;
   padding: 8rpx;
@@ -36,7 +36,7 @@
   height: 72rpx;
   border-radius: 22rpx;
   text-align: center;
-  font-size: 26rpx;
+  font-size: 23rpx;
   line-height: 1.2;
   color: rgba(46, 46, 42, 0.64);
 }
@@ -52,7 +52,8 @@
 }
 
 .review-card,
-.memory-item-review {
+.memory-item-review,
+.paw-memory-review {
   overflow: hidden;
 }
 
@@ -86,10 +87,21 @@
   padding: 26rpx;
 }
 
+.review-actions-body {
+  padding-top: 0;
+}
+
 .review-title {
   font-size: 32rpx;
   font-weight: 700;
   color: #5B5F97;
+}
+
+.review-subtitle {
+  margin-top: 14rpx;
+  font-size: 27rpx;
+  font-weight: 700;
+  color: rgba(46, 46, 42, 0.78);
 }
 
 .review-meta,
@@ -111,6 +123,60 @@
   font-size: 26rpx;
   font-weight: 700;
   color: #5B5F97;
+}
+
+.ai-review {
+  margin-top: 18rpx;
+  padding: 18rpx;
+  border: 1rpx solid rgba(91, 95, 151, 0.12);
+  border-radius: 18rpx;
+  background: rgba(175, 166, 219, 0.1);
+}
+
+.ai-review-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18rpx;
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #5B5F97;
+}
+
+.ai-review-reason,
+.ai-review-time {
+  margin-top: 10rpx;
+  font-size: 23rpx;
+  line-height: 1.5;
+  color: rgba(46, 46, 42, 0.66);
+}
+
+.ai-review-block {
+  border-color: rgba(154, 74, 74, 0.24);
+  background: rgba(154, 74, 74, 0.1);
+}
+
+.ai-review-block .ai-review-top {
+  color: #9A4A4A;
+}
+
+.ai-review-review {
+  border-color: rgba(214, 171, 79, 0.28);
+  background: rgba(214, 171, 79, 0.12);
+}
+
+.ai-review-review .ai-review-top,
+.ai-review-failed .ai-review-top {
+  color: #A67A16;
+}
+
+.ai-review-failed {
+  border-color: rgba(242, 164, 92, 0.28);
+  background: rgba(242, 164, 92, 0.12);
+}
+
+.ai-review-skipped {
+  background: rgba(46, 46, 42, 0.04);
 }
 
 .review-actions {
