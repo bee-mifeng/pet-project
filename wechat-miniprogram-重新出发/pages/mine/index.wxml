@@ -68,7 +68,7 @@
         </view>
         <view class="paw-memory-actions">
           <view class="paw-memory-action like-action">
-            <text class="paw-action-icon heart-icon">♥</text>
+            <text class="paw-action-icon heart-icon">♡</text>
             <text class="paw-action-count">{{item.likes_count || 0}}</text>
           </view>
           <view class="paw-memory-action">
